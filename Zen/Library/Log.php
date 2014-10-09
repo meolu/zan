@@ -1,0 +1,18 @@
+<?php
+/* *************************************************************************
+ * File Name: Log.php
+ * Author: wushuiyong
+ * mail: wushuiyong@huamanshu.com
+ * Created Time: Tue 07 Oct 2014 10:57:31 AM
+ * ************************************************************************/
+
+class Log {
+
+    public static function warning($message) {
+        var_dump('writing Log::warning: '. $message);
+    }
+
+    public static function logger($level, $message) {
+        var_dump('writing Log::warning: '. $message);
+    }
+}
