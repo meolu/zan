@@ -34,6 +34,7 @@ class Loader {
         if (!class_exists($class)) {
             foreach (self::$_includePath as $path) {
                 $file = $path . $class . EXT;
+                    var_dump($file);
                 if (file_exists($file)) {
                     include($file);
                     self::$_loaded[$class] = new $class;

@@ -9,6 +9,7 @@
 class Uri_Router {
 
     private static $_instance = null;
+    private $_app;
     private $_controller;
     private $_action;
     function __construct() {
@@ -22,12 +23,15 @@ class Uri_Router {
         }
         $uriInfo = explode('/', trim($uri, '/'));
         array_map('strtolower', $uriInfo);
-        list($this->_controller, $this->_action) = $uriInfo;
-        $this->_controller = 'Controller_' . ucwords($uriInfo[0]);
-        $this->_action = $uriInfo[1] . 'Action';
+        $this->_app        = ucwords($uriInfo[0]);
+        $this->_controller = $this->_app . '_Controller_' . ucwords($uriInfo[1]);
+        $this->_action     = ucwords($uriInfo[2]) . 'Action';
     }
 
-
+    public function app() {
+        return $this->_app;
+    }
+    
     public function controller($controller = null) {
         if ($controller) {
             $this->_controller = $controller;

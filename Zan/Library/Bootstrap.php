@@ -10,9 +10,11 @@ class Bootstrap {
 
     public static function run(Uri_Router $router) {
         $router->init();
+        $app        = $router->app();
         $controller = $router->controller();
         $action     = $router->action();
         try {
+            $controller::init($app);
             $controller::$action();
         } catch (Exception $e) {
             #var_dump($e);

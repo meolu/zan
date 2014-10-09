@@ -8,12 +8,15 @@
 
 class Controller {
 
-    protected $template;
+    protected static $TPL;
 
+    public static function init($app) {
+        self::$TPL = APPPATH . $app . '/Template/';
+    }
     public static function render(array $field, $template) {
         ob_start();
         extract($field);
-        include(TEMPLATEPATH . $template);
+        include(self::$TPL . $template);
         ob_flush();
     }
 
