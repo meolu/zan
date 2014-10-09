@@ -12,13 +12,8 @@ class Bootstrap {
         $router->init();
         $controller = $router->controller();
         $action     = $router->action();
-        $controller::$action();
-        $controller = Zen::load($router->controller());
-        $action = $router->action();
         try {
-            #$controller->$action();
-            #$objController = new ReflectionClass($router->controller());
-            #var_dump($objController->getMethod());
+            $controller::$action();
         } catch (Exception $e) {
             #var_dump($e);
         }

@@ -9,10 +9,10 @@
 class Log {
 
     public static function warning($message) {
-        var_dump('writing Log::warning: '. $message);
+        #var_dump('writing Log::warning: '. $message);
     }
 
     public static function logger($level, $message) {
-        var_dump('writing Log::warning: '. $message);
+        #var_dump('writing Log::warning: '. $message);
     }
 }

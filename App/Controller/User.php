@@ -9,7 +9,6 @@
 class Controller_User extends Controller {
 
     public static function infoAction() {
-        var_dump("App_Controller_User infoAction");
         Log::warning('App_Controller_User infoAction');
         self::render(array(
             'username' => 'wushuiyong',
