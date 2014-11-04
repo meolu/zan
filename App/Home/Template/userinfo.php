@@ -6,5 +6,7 @@
 </head>
 <body>
     <?= $username ?>
+    <br>
+    <?= $db ?>
 </body>
 </html>

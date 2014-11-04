@@ -7,15 +7,17 @@
  * ************************************************************************/
 
 class Home_Controller_User extends Controller {
-    public static function init($app = 'Home') {
-        parent::init($app);
+    public $model;
+    public function __construct() {
     }
-    public static function InfoAction() {
+
+    public function InfoAction() {
+        $this->model = new Home_Model_User();
         var_dump("App_Controller_User infoAction");
-        Log::warning('App_Controller_User infoAction');
-        
+
         self::render(array(
             'username' => 'wushuiyong',
+            'db'       => $this->model->getUserCount(),
         ), 'userinfo.php');
     }
 }

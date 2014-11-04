@@ -8,15 +8,18 @@
 
 class Controller {
 
-    protected static $TPL;
 
-    public static function init($app) {
-        self::$TPL = APPPATH . $app . '/Template/';
+    public static function init() {
     }
-    public static function render(array $field, $template) {
+
+    public function render(array $field, $template) {
+        $tpl = APPPATH . APP . '/Template/' . $template;
+        if (!file_exists($tpl)) {
+            throw new ZException('can not find tpl[{$tpl}]', E_ERROR);
+        }
         ob_start();
         extract($field);
-        include(self::$TPL . $template);
+        include(APPPATH . APP . '/Template/' . $template);
         ob_flush();
     }
 

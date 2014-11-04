@@ -22,25 +22,30 @@ class Loader {
     }
 
     public static function autoload($class, $lib = '', $param = []) {
+        
         if ('Loader' === $class) {
-            return;
             self::$_loaded[$class] = new $class;
             return self::$_loaded[$class];
         }
         if (isset($_loaded[$class])) {
             return $_loaded[$class];
         }
-        self::$_includePath = [LIBPATH, LIBHOOKS, LIBURI, APPPATH];
+        self::$_includePath = [LIBPATH, LIBHOOKS, LIBURI, APPPATH, APPPATH . APP];
         if (!class_exists($class)) {
             foreach (self::$_includePath as $path) {
                 $file = $path . $class . EXT;
-                    var_dump($file);
                 if (file_exists($file)) {
                     include($file);
                     self::$_loaded[$class] = new $class;
                     break;
                 }
             }
+        }
+    }
+
+    public static function import($file) {
+            var_dump($file);die;
+        if (is_file($file)) {
         }
     }
 }

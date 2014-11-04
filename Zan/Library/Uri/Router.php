@@ -12,10 +12,11 @@ class Uri_Router {
     private $_app;
     private $_controller;
     private $_action;
-    function __construct() {
+    
+    public function __construct() {
         self::$_instance = &$this;
-        $this->module = "test";
     }
+
     public function init() {
         $uri = getenv('REQUEST_URI');
         if (false !== strpos($uri, '?')) {
@@ -26,12 +27,13 @@ class Uri_Router {
         $this->_app        = ucwords($uriInfo[0]);
         $this->_controller = $this->_app . '_Controller_' . ucwords($uriInfo[1]);
         $this->_action     = ucwords($uriInfo[2]) . 'Action';
+        define('APP', $this->_app . '/');
     }
 
     public function app() {
         return $this->_app;
     }
-    
+
     public function controller($controller = null) {
         if ($controller) {
             $this->_controller = $controller;
@@ -44,5 +46,9 @@ class Uri_Router {
             $this->_action = $action;
         }
         return $this->_action;
+    }
+
+    public function request(array $params = array()) {
+
     }
 }

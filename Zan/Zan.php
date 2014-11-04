@@ -8,8 +8,8 @@
 
 
 class Zan {
-    private static $_includePath = [];
-    private static $_instance = [];
+    private static $_includePath = [APPPATH, APPPATH, LIBPATH];
+    private static $_class2file = [];
     private static $_loaded = [];
 
     function __construct() {
@@ -21,22 +21,43 @@ class Zan {
     }
 
     public static function autoload($class, $lib = '', $param = []) {
-        #debug_print_backtrace();
-        if (isset($_loaded[$class])) {
-            return $_loaded[$class];
+        $file = isset(self::$_class2file[$class])
+              ? self::$_class2file[$class]
+              : self::class2file($class);
+        if (!$file) {
+            $bt = debug_backtrace();
+            throw new ZException("can not find class[{$class}], in {$bt[1]['file']}:{$bt[1]['line']}", ZException::NOT_FOUND_CLASS);
         }
-        self::$_includePath = [LIBPATH, APPPATH];
-        if (!class_exists($class)) {
+        include($file);
+    }
+
+    public static function class2file($class) {
+        if (isset(self::$_class2file[$class])) {
+            return self::$_class2file[$class];
+        }
+        if (!class_exists($class, false)) {
+            $class = str_replace(array('\\', '_'), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR), $class);
             foreach (self::$_includePath as $path) {
-                $file = $path . str_replace('_', DIRECTORY_SEPARATOR, $class) . EXT;
-     #               echo $file," $class<BR>";
+                $file = $path . $class . EXT;
+                // echo $file," $class<BR>";
                 if (file_exists($file)) {
-     #               echo $file," $class<BR>";
-                    include($file);
-                    self::$_loaded[$class] = new $class();
-                    break;
+                    // echo $file," $class<BR>";
+                    self::$_class2file[$class] = $file;
+                    return self::$_class2file[$class];
                 }
             }
         }
+        return;  
     }
+
+    public static function display50x($message = "服务器君崩溃了:(...") {
+        var_dump($message);
+        exit(0);
+    }
+
+    public static function display40x($message = "你要找的页面君迷路了:(...") {
+        var_dump($message);
+        exit(0);
+    }
+
 }

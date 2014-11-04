@@ -5,19 +5,26 @@
  * mail: wushuiyong@huamanshu.com
  * Created Time: Fri 05 Sep 2014 03:41:53 PM
  * ************************************************************************/
-
 class Bootstrap {
 
     public static function run(Uri_Router $router) {
         $router->init();
-        $app        = $router->app();
         $controller = $router->controller();
         $action     = $router->action();
+
         try {
-            $controller::init($app);
-            $controller::$action();
-        } catch (Exception $e) {
-            #var_dump($e);
+            if (!Zan::class2file($controller)) {
+                Zan::display40x();
+            }
+            $instance = new $controller();
+            if (!method_exists($instance, $action)) {
+                Zan::display40x();
+            }
+            $instance->$action();
+        } catch (ZException $e) {
+            Zan::display50x($e->getMessage());
         }
+            
     }
+
 }
