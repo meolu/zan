@@ -5,15 +5,16 @@
  * mail: wushuiyong@huamanshu.com
  * Created Time: Sun 02 Nov 2014 06:24:26 PM
  * ************************************************************************/
+namespace Zan\Library\Model;
 
-class Model_Mysqli {
+class ZMysqli {
     const DB_ACTIVE = 'default';
     protected $db;
     protected $table;
     public function __construct() {
         include ROOT . '/Zan/Conf/database.php';
         $dbConf = $db[self::DB_ACTIVE];
-        $this->db = new mysqli($dbConf['host'], $dbConf['user'], $dbConf['passwd'], $dbConf['database']);
+        $this->db = new \mysqli($dbConf['host'], $dbConf['user'], $dbConf['passwd'], $dbConf['database']);
     }
     
     public static function getInstance() {

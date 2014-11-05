@@ -5,6 +5,7 @@
  * mail: wushuiyong@huamanshu.com
  * Created Time: Tue 07 Oct 2014 10:57:31 AM
  * ************************************************************************/
+namespace Zan\Library;
 
 class Log {
 

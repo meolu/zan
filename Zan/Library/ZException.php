@@ -5,8 +5,9 @@
  * mail: wushuiyong@huamanshu.com
  * Created Time: Thu 23 Oct 2014 05:21:14 PM
  * ************************************************************************/
+namespace Zan\Library;
 
-class ZException extends Exception {
+class ZException extends \Exception {
     // 找不到类
     const NOT_FOUND_CLASS  = 100;
     // 找不到方法

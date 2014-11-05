@@ -5,8 +5,9 @@
  * mail: wushuiyong@huamanshu.com
  * Created Time: Mon 03 Nov 2014 11:00:03 AM
  * ************************************************************************/
+namespace Zan\Library\Model;
 
-class Model_Mongo {
+class ZMongo {
     const DB_ACTIVE = 'mongo';
     public function __construct() {
         include ROOT . '/Zan/Conf/database.php';

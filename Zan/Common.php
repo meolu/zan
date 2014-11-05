@@ -5,6 +5,8 @@
  * mail: wushuiyong@huamanshu.com
  * Created Time: Fri 05 Sep 2014 03:16:50 PM
  * ************************************************************************/
+namespace Zan;
+
 error_reporting(E_ALL & ~E_NOTICE);
 define('DS', DIRECTORY_SEPARATOR);
 define('EXT', '.php');
@@ -16,5 +18,5 @@ define('LIBURI',   ROOT . '/Zan/Library/Uri/');
 date_default_timezone_set('Asia/Shanghai');
 
 include ROOT . '/Zan/Zan.php';
-spl_autoload_register('Zan::autoload');
+spl_autoload_register('Zan\Zan::autoload');
 

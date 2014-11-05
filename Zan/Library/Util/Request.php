@@ -5,7 +5,7 @@
  * mail: wushuiyong@huamanshu.com
  * Created Time: Tue 04 Nov 2014 04:33:13 PM
  * ************************************************************************/
-namespace Util;
+namespace Zan\Library\Util;
 
 class Request {
     public function __construct() {

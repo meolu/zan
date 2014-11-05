@@ -5,6 +5,7 @@
  * mail: wushuiyong@huamanshu.com
  * Created Time: Thu 23 Oct 2014 03:47:58 PM
  * ************************************************************************/
+use Zan\Library\Model;
 
 class Home_Model_Service extends Model {
 

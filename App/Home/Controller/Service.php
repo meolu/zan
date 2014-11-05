@@ -5,6 +5,8 @@
  * mail: wushuiyong@huamanshu.com
  * Created Time: Sun 14 Sep 2014 07:48:36 PM
  * ************************************************************************/
+use Zan\Library\Util\Request;
+use Zan\Library\Controller;
 
 class Home_Controller_Service extends Controller {
     public $model;
@@ -18,13 +20,13 @@ class Home_Controller_Service extends Controller {
         self::render(array(
             'timestamp' => $time,
             'token'     => md5('unique_salt' . $time),
-            'uploader'  => '/service/uploadPicProccess/',
+            'uploader'  => '/home/service/uploadPicProccess/',
         ), 'editor.php');
     }
 
     public function loadblogAction() {
         // header('content-type:application/json');
-        $blogId = Util\Request::get('blog_id');
+        $blogId = Request::get('blog_id');
         $file = $this->modelSerice->getFileNameById($blogId);
         if (false === $file) {
             echo json_encode(array('is_success' => false));

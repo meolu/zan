@@ -5,16 +5,18 @@
  * mail: wushuiyong@huamanshu.com
  * Created Time: Sun 02 Nov 2014 06:24:26 PM
  * ************************************************************************/
+namespace Zan\Library;
+use Zan\Library\Model as M;
 
 class Model {
     protected $db;
     protected $table;
-    public function __construct($type = 'mongo') {
-        $this->db = new Model_Mysqli();
+    public function __construct($type = 'zmongo') {
+        // $this->db = new Model\ZMysqli();
     }
 
     public static function getInstance($type = 'mysqli') {
-        $model = "Model_" . ucwords($type);
+        $model = 'Zan\Library\Model\Z' . ucwords($type);
         return $model::getInstance();
     }
 

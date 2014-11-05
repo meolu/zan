@@ -5,10 +5,11 @@
  * mail: wushuiyong@huamanshu.com
  * Created Time: Fri 05 Sep 2014 03:21:20 PM
  * ************************************************************************/
-
+namespace Zan;
+use Zan\Library\ZException;
 
 class Zan {
-    private static $_includePath = [APPPATH, APPPATH, LIBPATH];
+    private static $_includePath = [ROOT, APPPATH, APPPATH, LIBPATH];
     private static $_class2file = [];
     private static $_loaded = [];
 
@@ -21,12 +22,15 @@ class Zan {
     }
 
     public static function autoload($class, $lib = '', $param = []) {
+        // echo "class:";var_dump($class);
         $file = isset(self::$_class2file[$class])
               ? self::$_class2file[$class]
               : self::class2file($class);
-        if (!$file) {
+              // echo "file:";var_dump($file);echo "<BR>";
+        if (!$file && !class_exists($class)) {
             $bt = debug_backtrace();
-            throw new ZException("can not find class[{$class}], in {$bt[1]['file']}:{$bt[1]['line']}", ZException::NOT_FOUND_CLASS);
+            var_dump($bt);
+            throw new ZException("can not find class[{$class}], in {$bt[1]['file']}:{$bt[1]['line']}", 100);
         }
         include($file);
     }
@@ -36,8 +40,9 @@ class Zan {
             return self::$_class2file[$class];
         }
         if (!class_exists($class, false)) {
-            $class = str_replace(array('\\', '_'), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR), $class);
+            $class = str_replace(array('\\', '_'), array(DS, DS), $class);
             foreach (self::$_includePath as $path) {
+                $path = rtrim($path, '/') . '/';
                 $file = $path . $class . EXT;
                 // echo $file," $class<BR>";
                 if (file_exists($file)) {

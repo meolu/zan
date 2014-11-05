@@ -5,8 +5,9 @@
  * mail: wushuiyong@huamanshu.com
  * Created Time: Fri 05 Sep 2014 03:32:19 PM
  * ************************************************************************/
+namespace Zan\Library\Uri;
 
-class Uri_Router {
+class Router {
 
     private static $_instance = null;
     private $_app;
