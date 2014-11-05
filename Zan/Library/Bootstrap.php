@@ -8,6 +8,7 @@
 namespace Zan\Library;
 use Zan;
 
+
 class Bootstrap {
 
     public static function run(Uri\Router $router) {
@@ -24,7 +25,8 @@ class Bootstrap {
                 Zan\Zan::display40x();
             }
             $instance->$action();
-        } catch (Exception $e) {
+        } catch (ZException $e) {
+            Log::error($e);
             Zan\Zan::display50x($e->getMessage());
         }
             

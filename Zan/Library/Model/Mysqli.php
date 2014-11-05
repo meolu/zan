@@ -7,7 +7,7 @@
  * ************************************************************************/
 namespace Zan\Library\Model;
 
-class ZMysqli {
+class Mysqli {
     const DB_ACTIVE = 'default';
     protected $db;
     protected $table;
@@ -16,7 +16,7 @@ class ZMysqli {
         $dbConf = $db[self::DB_ACTIVE];
         $this->db = new \mysqli($dbConf['host'], $dbConf['user'], $dbConf['passwd'], $dbConf['database']);
     }
-    
+
     public static function getInstance() {
         static $instance = null;
         if (null == $instance) {

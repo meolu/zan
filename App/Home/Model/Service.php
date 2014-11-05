@@ -14,7 +14,7 @@ class Home_Model_Service extends Model {
     public function __construct() {
         parent::__construct();
         self::$BLOG_DIR =  ROOT . '/static/markdown/';
-        $this->dbMysqli = self::getInstance('mysqli');
+        $this->dbMysqli = self::getInstance('zmysqli');
     }
 
     /**

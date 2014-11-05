@@ -6,7 +6,6 @@
  * Created Time: Sun 02 Nov 2014 06:24:26 PM
  * ************************************************************************/
 namespace Zan\Library;
-use Zan\Library\Model as M;
 
 class Model {
     protected $db;
@@ -16,7 +15,7 @@ class Model {
     }
 
     public static function getInstance($type = 'mysqli') {
-        $model = 'Zan\Library\Model\Z' . ucwords($type);
+        $model = 'Zan\Library\Model\\' . ucwords($type);
         return $model::getInstance();
     }
 
