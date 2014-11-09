@@ -1,0 +1,1 @@
+can not find class[DB_CONF] in :33 [/home/paopao/workspace/mvc/App/Home/Model/Service.php:60] errno[0] uri[/home/blog/viewCount/?id=http%3A%2F%2Fmvc%3A8888%2Fblog%2F2014-03-09.html] refer[http://mvc:8888/home/blog/viewCount/?id=http%3A%2F%2Fmvc%3A8888%2Fblog%2F2014-03-09.html]

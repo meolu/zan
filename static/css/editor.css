@@ -1,0 +1,141 @@
+
+body{
+    font-size: 14px;
+    font-family: 'Georgia', "Hiragino Sans GB", serif;
+    width: 100%;
+    overflow: hidden;
+    background: #fbfbfb;
+}
+
+#main{
+    height: 100%;
+}
+
+.hidden {
+    opacity: 0.30000000000000004;
+left: -235px ! important ;
+}
+#editor textarea{
+    background: #fbfbfb;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 9;
+
+    height: 100%;
+    padding: 50px 200px 50px 0;
+    width:1020px;
+
+    font-family: "Hiragino Sans GB", "Microsoft Yahei", Verdana, Arial,  sans-serif;
+    font-size:13pt;
+    line-height:1.8em;
+
+    resize:none;
+    outline:none;
+    display: block;
+
+    border:none;
+
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    box-sizing: border-box;
+
+}
+
+
+#preview {
+    position: fixed;
+    z-index: 1999;
+    top:5px;
+    right:15px;
+}
+
+#preview a {
+    text-decoration: none;
+    font-size: 12px;
+    padding: 5px 10px;
+    color: #992a2b;
+}
+
+#preview a:hover{
+    background:#992a2b;
+    color:#fff;
+}
+
+
+#controls{
+    position: fixed;
+    z-index: 999;
+    width: 250px;
+    height: 100%;
+    top: 0;
+    left:0;
+
+    background: #eee;
+    border-right: 1px solid #ccc;
+
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+
+}
+
+
+
+#controls .cmds{
+    position: relative;
+    height: 40px;
+    border-bottom: 1px solid #c8c8c8;
+}
+
+#controls .cmds a{
+    text-decoration: none;
+    color: #333;
+    width: 25%;
+    float: left;
+    padding: 0;
+    line-height: 40px;
+    text-align: center;
+    font-size: 12px;
+}
+
+#controls .cmds a i{
+    padding-right: 5px;
+}
+
+#controls .cmds a:hover{
+    color: #ffffff;
+    background: #555;
+}
+
+#controls .cmds #manager{
+    width: 124px;
+    border-right: 1px solid #c8c8c8;
+}
+
+
+
+#posts{
+    list-style: none;
+    padding: 0;
+    margin:0;
+
+}
+
+#posts li{
+}
+
+#posts li a{
+    display: block;
+    text-decoration: none;
+    color: #333;
+    padding: 15px 15px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+#posts li a:hover, #posts li .current{
+    background: #fafafa;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}

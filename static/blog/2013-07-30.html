@@ -1,0 +1,313 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="generator" content="pandoc" />
+
+<link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
+<link rel="stylesheet" href="/static/css/blog.css" type="text/css"/>
+
+<title>实现一个四则混合运算计算器</title>
+<meta name="keywords" content="奋斗史,青春,三年奋斗,五年奋斗">
+<meta name="description" content="奋斗史,青春,三年奋斗,五年奋斗">
+<script type="text/javascript">
+var _speedMark = new Date();
+</script>
+</head>
+
+<body>
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+        <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav ml90">
+          <li data-slide="1" class="col-xs-4"><a href="/"  id="menu-link-1"><span class="glyphicon glyphicon-home"></span>首页</a></li>
+          <li data-slide="2" class="col-xs-4 active"><a href="/blog/" id="menu-link-2"><span class="glyphicon glyphicon-book"></span>博客</a></li>
+          <li data-slide="3" class="col-xs-4"><a href="/team/" id="menu-link-3" target="_blank"><span class="glyphicon glyphicon-user"></span>团队</a></li>
+        </ul>
+      <div class="row">
+        <div class="col-xs-4 active-menu"></div>
+      </div>
+          
+      </div>
+    </div>
+</div>
+<div class="content-title"><h1 class="title glyphicon glyphicon-leaf">实现一个四则混合运算计算器<span class="view glyphicon glyphicon-eye-open"></span><span class="time glyphicon glyphicon-time"></span></h1></div>
+
+<div class="content">
+	<!---title:实现一个四则混合运算计算器-->
+<!---keywords:奋斗史,青春,三年奋斗,五年奋斗-->
+    
+<p>在学校的时候没有好好学习编译原理，现在才发现有些东西真的好实用，像中缀表达式，可以做个简单的计算器；像毛概，凑够10本能吃顿散伙饭。 所谓的计算器就是对 2 * ( 1 + 3 ) + 9 能计算其值，而计算机不能对这样的中缀表达式读懂，它需要转化成后缀表达式，如 2 1 3 + * 9 + ；简单的来说就是去括号，这样的话，对于计算机来说，只有一个规则，那就是来一个运算符就做一次运算。 以下做一个简单的介绍，是个人觉得自己对这个过程描述，挺有意见的，以前我说的话，人家都听不懂什么意思，但我又想表达得大家都一下都明白了，好有成就感啊！</p>
+<pre><code>1）读字符X
+2）X为数字，直接进 nifix（栈）
+3）X为运算符，如果X的优先级大于 op 栈顶，则直接进 op 栈；否则把 op 栈弹出顶元素，压入 nifix栈，并把X压栈 op
+4）X为&#39;(&#39;，直接进 op
+5）Xp为&#39;)&#39;，把 op 栈内栈顶至最近一个 &#39;(&#39; 的所有运算符都出栈，压入 nifix
+6）继续1）－6）操作
+7）没有字符输入时，最后把 op 全部出栈入 nifix</code></pre>
+<p>PHP 实现如下，注释什么的就不用写了，个人都觉得挺简单了，再啰嗦有损我英雄气概：</p>
+<pre><code>// 中缀表达式转为后缀表达式
+function nifix($arr) {
+    $nifix =     $operator  = array();
+    $character = array(&#39;+&#39; =&gt; 1, &#39;-&#39; =&gt; 1, &#39;*&#39; =&gt; 2, &#39;/&#39; =&gt; 2);
+    foreach($arr as $c) {
+        switch($c) {
+            case &#39;(&#39;:
+                $operator[] = $c ;
+                break;
+            case &#39;)&#39;:
+                while(($c = array_pop($operator)) != &#39;(&#39;) {
+                    $nifix[] = $c;
+                }
+                break;
+            case &#39;+&#39;:
+            case &#39;-&#39;:
+            case &#39;*&#39;:
+            case &#39;/&#39;:
+                if (count($operator) &amp;&amp; $character[$c] &lt;= $character[$operator[count($operator)-1]]) {
+                    $nifix[] = array_pop($operator);
+                }
+                $operator[] = $c ;
+                break;
+            case &#39; &#39;:
+                break;
+            default:
+                array_push($nifix, $c);
+                break;
+                
+        }    
+    }
+    while($c = array_pop($operator)) {
+        $nifix[] = $c;
+    }
+    return $nifix;
+}</code></pre>
+<p>暂让我们以 6 * ( ( 5 * 2 - 1 ) / ( 1 + 2 ) ) + 10 * 0.2 这表达式来做一次体验吧，为方便理解，打出运算符栈与变量栈，运算符栈与变量栈变化如下，上为 op（运算符栈），下为nifix（变量栈）</p>
+<pre><code>1. 
+  6
+2. *
+  6
+3. * (
+  6
+4. * ( (
+  6
+5. * ( (
+  6 5
+6. * ( ( *
+  6 5
+7. * ( ( *
+  6 5 2
+8. * ( ( -
+  6 5 2 *
+9. * ( ( -
+  6 5 2 * 1
+10. * (
+  6 5 2 * 1 -
+11. * ( /
+  6 5 2 * 1 -
+12. * ( / (
+  6 5 2 * 1 -
+13. * ( / (
+  6 5 2 * 1 - 1
+14. * ( / ( +
+  6 5 2 * 1 - 1
+15. * ( / ( +
+  6 5 2 * 1 - 1 2
+16. * ( /
+  6 5 2 * 1 - 1 2 +
+17. *
+  6 5 2 * 1 - 1 2 + /
+18. +
+  6 5 2 * 1 - 1 2 + / *
+19. +
+  6 5 2 * 1 - 1 2 + / * 10
+20. + *
+  6 5 2 * 1 - 1 2 + / * 10
+21. + *
+  6 5 2 * 1 - 1 2 + / * 10 0.2
+22. 
+  6 5 2 * 1 - 1 2 + / * 10 0.2 * +</code></pre>
+<p>有了可识别的后缀表达式之后，只要把这个表达式每遇到一个运算符，取该运算符后前两个变量进行运算，把值代替这运算符和变量。如：2 1 3 + * 9 + ，先是'+'，则 1 + 3 ，变成 2 4 * 9 +，然后是 <em>，2 </em> 4，代替为 8 9 +，最后就是 8+9了，简单的上一段PHP代码示例</p>
+<pre><code>function countNifix($arr) {
+    $character = array(&#39;+&#39;, &#39;-&#39;, &#39;*&#39;, &#39;/&#39;);
+
+    for($k = 0; $k &lt; count($arr); $k++) {
+        $c = $arr[$k];
+        if (in_array($c, $character[$c])) {
+            switch($c) {
+                case &#39;+&#39;:
+                    $unit = array_splice($arr, $k-2, 2);
+                    $arr[$k-2] = $unit[0] + $unit[1];
+                    break;
+                case &#39;-&#39;:
+                    $unit = array_splice($arr, $k-2, 2);
+                    $arr[$k-2] = $unit[0] - $unit[1];
+                    break;
+                case &#39;*&#39;:
+                    $unit = array_splice($arr, $k-2, 2);
+                    $arr[$k-2] = $unit[0] * $unit[1];
+                    break;
+                case &#39;/&#39;:
+                    $unit = array_splice($arr, $k-2, 2);
+                    $arr[$k-2] = $unit[0] / $unit[1];
+                    break;
+                default:
+                    break;
+            }
+            --$k;--$k;
+        }
+    }
+    return $arr[0];
+}</code></pre>
+<p>接着就是我们体验它可用性的时刻了</p>
+<pre><code>$count = &#39;6 * ( ( 5 * 2 - 1 ) / ( 1 + 2 ) ) + 10 * 0.2&#39;;
+$arr = explode(&quot; &quot;,$count); //中缀变后缀
+echo countNifix(nifix($arr)); //计算</code></pre>
+<p>计算结果：20</p>
+</div>
+
+<hr class="blog-hr">
+
+<div class="container blog-container prev-next-box">
+  <ul class="pager">
+    <li class="previous"><a href="javascript:void(0);" id="prev">&larr; Older</a></li>
+    <li class="next"><a href="javascript:void(0);" id="next">Newer &rarr;</a></li>
+  </ul>
+</div>
+
+<div class="content" data-slide="1">
+	<div class="blog-container">
+		<div id="home-row-1" class="clearfix">
+			<div id="comments"></div>
+		</div>
+	</div>
+</div>
+
+<div class="container blog-container comment-box">
+		<form class="form-horizontal" role="form">
+	  <div class="form-group">
+	    <div class="col-sm-3">
+	      <input type="text" class="form-control js-name" placeholder="名字不重要">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-10">
+	      <textarea class="form-control inputComment js-comment" placeholder="深有感触，写点我的想法"> </textarea>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-10">
+	      <button type="submit" class="btn btn-default js-submit">发表评论</button>
+	    </div>
+	  </div>
+	</form>
+</div>
+<!-- <div id="blog-footer"><a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博</a> | <a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="glyphicon glyphicon-envelope email-footer">wushuiyong@huamanshu.com</a> </div> -->
+<div id="blog-footer">©2014 huamanshu. All rights reserved</div><div class="hide" style="display:none"><script type="text/javascript" src="http://hm.baidu.com/h.js?fb1a70589b6397ff055728e0196175d5"></script></div>
+<script src="/static/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="/static/js/jquery.easing.1.3.js" type="text/javascript"></script>
+<script src="/static/js/script.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(e) {
+  var lis = $('.nav > li');
+  menu_focus( lis[1], 1 );
+  
+  var sprintf = function() {
+      var arg = arguments,
+          str = arg[0] || '',
+          i, n;
+      for (i = 1, n = arg.length; i < n; i++) {
+          str = str.replace(/%s/, arg[i]);
+      }
+      return str;
+  }
+
+  // 初始化评论
+  var initComment = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/getComment/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+          var tpl = '';
+          for (key in data.comments) {
+              var c = data.comments[key];
+              tpl += sprintf("<blockquote><p><em>%s</em>%s</p></blockquote>", c.name, c.comment);
+          }
+          $('#comments').html(tpl).show();
+      }
+    })
+  }
+  initComment();
+
+  // 初始化浏览次数
+  var initViewCount = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/viewCount/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+          $('.time').text(data.time);
+          $('.view').text(data.view);
+      }
+    });
+  }
+  initViewCount();
+
+  // 获取上一篇下一篇
+  var initNextPrev = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/getNextPrev/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+        var re = /\/index\d.html/
+        var nTitle = re.test(data.n.url) ? '下一页' : data.n.title;
+        var pTitle = re.test(data.p.url) ? '上一页' : data.p.title;
+        data.n ? $('#next').attr('href', data.n.url).html(nTitle + ' &rarr;') : $('#next').hide();
+        data.p ? $('#prev').attr('href', data.p.url).html('&larr; ' + pTitle) : $('#prev').hide();
+      }
+    });
+  }
+  initNextPrev();
+
+  // 写完点提交或者ctrl+enter
+  if (event.ctrlKey && event.keyCode == '13') {
+    addComment();
+  }
+  $('.js-submit').click(function(e) {
+    e.preventDefault();
+    addComment();
+  })
+
+  // 添加评论
+  var addComment = function() {
+    var name = $('.js-name').val();
+    var comment = $('.js-comment').val();
+
+    $.ajax({
+      'type' : 'POST',
+      'url'  : '/home/blog/addComment/',
+      'data' : sprintf('name=%s&comment=%s&id=%s', encodeURIComponent(name), encodeURIComponent(comment), encodeURIComponent(window.location.href)),
+      'success' : function(data) {
+          initComment();
+          $('.js-name').val('');
+          $('.js-comment').val('');
+      }
+    })
+  }
+});
+
+</script>
+<script type="text/javascript" src="http://hm.baidu.com/h.js?fb1a70589b6397ff055728e0196175d5"></script>
+
+</body>
+</html>

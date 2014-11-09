@@ -25,11 +25,21 @@ class Request {
         return $_GET;
     }
 
+    public static function isPost($key = null) {
+        return 'POST' === $_SERVER['REQUEST_METHOD'];
+    }
+
+    public static function server($key = null) {
+        if ($key) {
+            return isset($_SERVER[$key]) ? $_SERVER[$key] : null;
+        }
+        return $_SERVER;
+    }
+
     public static function request($key = null) {
         static $request = null;
         if (!$request) {
             $request = array_merge($_GET, $_POST);
-        $request = self::merge();
         }
         if ($key) {
             return isset($request[$key]) ? $request[$key] : null;

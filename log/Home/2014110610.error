@@ -1,0 +1,4 @@
+can not find class[Session] in :31 [/home/paopao/workspace/mvc/App/Home/Controller/Service.php:71] errno[0] uri[/home/service/editor] refer[http://mvc:8888/home/service/editor]
+can not find class[Session] in :31 [/home/paopao/workspace/mvc/App/Home/Controller/Service.php:72] errno[0] uri[/home/service/editor] refer[http://mvc:8888/home/service/editor]
+can not find class[DB_CONF] in :31 [/home/paopao/workspace/mvc/App/Home/Controller/Service.php:24] errno[0] uri[/home/service/editor] refer[http://mvc:8888/home/service/editor]
+can not find class[DB_CONF] in :31 [/home/paopao/workspace/mvc/App/Home/Controller/Service.php:24] errno[0] uri[/home/service/editor] refer[http://mvc:8888/home/service/editor]

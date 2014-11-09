@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="generator" content="pandoc" />
+
+<link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
+<link rel="stylesheet" href="/static/css/blog.css" type="text/css"/>
+
+<title>CodeIgniter 如新娘</title>
+<meta name="keywords" content="CodeIgniter分析，CodeIgniter入门">
+<meta name="description" content="CodeIgniter分析，CodeIgniter入门">
+<script type="text/javascript">
+var _speedMark = new Date();
+</script>
+</head>
+
+<body>
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+        <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav ml90">
+          <li data-slide="1" class="col-xs-4"><a href="/"  id="menu-link-1"><span class="glyphicon glyphicon-home"></span>首页</a></li>
+          <li data-slide="2" class="col-xs-4 active"><a href="/blog/" id="menu-link-2"><span class="glyphicon glyphicon-book"></span>博客</a></li>
+          <li data-slide="3" class="col-xs-4"><a href="/team/" id="menu-link-3" target="_blank"><span class="glyphicon glyphicon-user"></span>团队</a></li>
+        </ul>
+      <div class="row">
+        <div class="col-xs-4 active-menu"></div>
+      </div>
+          
+      </div>
+    </div>
+</div>
+<div class="content-title"><h1 class="title glyphicon glyphicon-leaf">CodeIgniter 如新娘<span class="view glyphicon glyphicon-eye-open"></span><span class="time glyphicon glyphicon-time"></span></h1></div>
+
+<div class="content">
+	<!---title:CodeIgniter 如新娘-->
+<!---keywords:CodeIgniter分析，CodeIgniter入门-->
+
+
+<p>CodeIgniter是既是一个入门级别的MVC，也是一个比较成熟的框架，功能很完整，如果一开始驾驭不了Zend，那选CI将会使你有入门MVC的机会。大学时代喜欢她，却没有深入它，哎...为弥补这一遗憾，让我今晚好好跟她探讨探讨人生哲学。</p>
+<p>喜欢CI像你期待已久新娘的轮廓清晰可爱，而她core类库却像妾一样任君选择，她们几乎能满足你的所有需要。而她的美在你使用的时候，会更迷人，你会觉得你能驾驭她，慢慢陪伴成长；然后再把她改造变得更优美。</p>
+<p>之前就看到一个文章关于如何深入理解一个web框架，一直没有践行。关于这种现象，我想在此说感慨两句，列过清单的同学不少，但一件都没做好的也不少。好比如说在等公交的时候看到一个很漂亮的妹子，心里想着要和她扯两句，要上个联系方式，但就没有鼓起勇气，痛下决心去做，然后很遗憾的下车了。千万次偶遇都没有促成一次情缘，不能说上苍不给力啊，只能怪自己不给力啊。总结：把你现在想到要做的事，立刻去做，并且做好为止。</p>
+<p>之后，你会发现你大不一样了。</p>
+<blockquote>
+<h4><a href="http://lutaf.com/148.htm">web框架学习列表</a></h4>
+<hr />
+<h4>如何定义 url route</h4>
+<ul>
+<li>如何组织 request handler 函数</li>
+<li>写一个最简单的request handler 函数</li>
+<li>如何从get/post请求中取出参数</li>
+<li>如何定义全局url 拦截函数</li>
+<li>如何获取/修改/存储 cookie,session数据</li>
+<li>如何修改/输出 http header 数据</li>
+</ul>
+<h4>如何部部署app 程序</h4>
+<ul>
+<li>服务器部署可以参考读python web 程序的9种部署方式</li>
+<li>如何配置开发环境</li>
+<li>如何配置静态文件访问</li>
+<li>如何访问数据库</li>
+</ul>
+<h4>如何使用模板系统</h4>
+<ul>
+<li>如何组织/访问 模板文件的目录结构</li>
+<li>如何在模板中嵌入代码</li>
+<li>模板是否支持继承结构</li>
+<li>模板之间如何include</li>
+<li>如何自定义模板函数</li>
+</ul>
+<h4>如何通过http get/post 获取远程数据</h4>
+<h4>如何parse json</h4>
+<ul>
+<li>如何parse xml</li>
+<li>如何输出为 json</li>
+</ul>
+<h4>如何处理状态码:404和50x</h4>
+<h4>如何处理文件上传</h4>
+<h4>可选的学习项目</h4>
+<h4>发送email</h4>
+<h4>log</h4>
+<h4>图片处理</h4>
+</blockquote>
+<p>引用鲁塔弗的建议，以此作为路线进行学习。学习一个web框架，就像户外攀登一座大山中的一片湖，每一个旅者很大程度会遇到，会有人很欣喜，停下来，捧起一泓，喝上几大口，收获的是山湖带给他的安静清澈；也可能会有游人拍照，归根就是说，并不要求所有人都要做一个事情，践行的时候，心态和结果都会因人而异，学习一个框架变如此。</p>
+<p>大家会发现我比较喜欢比喻，而且很多的时候，比喻又很不恰当，真是太没文化了</p>
+</div>
+
+<hr class="blog-hr">
+
+<div class="container blog-container prev-next-box">
+  <ul class="pager">
+    <li class="previous"><a href="javascript:void(0);" id="prev">&larr; Older</a></li>
+    <li class="next"><a href="javascript:void(0);" id="next">Newer &rarr;</a></li>
+  </ul>
+</div>
+
+<div class="content" data-slide="1">
+	<div class="blog-container">
+		<div id="home-row-1" class="clearfix">
+			<div id="comments"></div>
+		</div>
+	</div>
+</div>
+
+<div class="container blog-container comment-box">
+		<form class="form-horizontal" role="form">
+	  <div class="form-group">
+	    <div class="col-sm-3">
+	      <input type="text" class="form-control js-name" placeholder="名字不重要">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-10">
+	      <textarea class="form-control inputComment js-comment" placeholder="深有感触，写点我的想法"> </textarea>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-10">
+	      <button type="submit" class="btn btn-default js-submit">发表评论</button>
+	    </div>
+	  </div>
+	</form>
+</div>
+<!-- <div id="blog-footer"><a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博</a> | <a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="glyphicon glyphicon-envelope email-footer">wushuiyong@huamanshu.com</a> </div> -->
+<div id="blog-footer">©2014 huamanshu. All rights reserved</div><div class="hide" style="display:none"><script type="text/javascript" src="http://hm.baidu.com/h.js?fb1a70589b6397ff055728e0196175d5"></script></div>
+<script src="/static/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="/static/js/jquery.easing.1.3.js" type="text/javascript"></script>
+<script src="/static/js/script.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(e) {
+  var lis = $('.nav > li');
+  menu_focus( lis[1], 1 );
+  
+  var sprintf = function() {
+      var arg = arguments,
+          str = arg[0] || '',
+          i, n;
+      for (i = 1, n = arg.length; i < n; i++) {
+          str = str.replace(/%s/, arg[i]);
+      }
+      return str;
+  }
+
+  // 初始化评论
+  var initComment = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/getComment/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+          var tpl = '';
+          for (key in data.comments) {
+              var c = data.comments[key];
+              tpl += sprintf("<blockquote><p><em>%s</em>%s</p></blockquote>", c.name, c.comment);
+          }
+          $('#comments').html(tpl).show();
+      }
+    })
+  }
+  initComment();
+
+  // 初始化浏览次数
+  var initViewCount = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/viewCount/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+          $('.time').text(data.time);
+          $('.view').text(data.view);
+      }
+    });
+  }
+  initViewCount();
+
+  // 获取上一篇下一篇
+  var initNextPrev = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/getNextPrev/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+        var re = /\/index\d.html/
+        var nTitle = re.test(data.n.url) ? '下一页' : data.n.title;
+        var pTitle = re.test(data.p.url) ? '上一页' : data.p.title;
+        data.n ? $('#next').attr('href', data.n.url).html(nTitle + ' &rarr;') : $('#next').hide();
+        data.p ? $('#prev').attr('href', data.p.url).html('&larr; ' + pTitle) : $('#prev').hide();
+      }
+    });
+  }
+  initNextPrev();
+
+  // 写完点提交或者ctrl+enter
+  if (event.ctrlKey && event.keyCode == '13') {
+    addComment();
+  }
+  $('.js-submit').click(function(e) {
+    e.preventDefault();
+    addComment();
+  })
+
+  // 添加评论
+  var addComment = function() {
+    var name = $('.js-name').val();
+    var comment = $('.js-comment').val();
+
+    $.ajax({
+      'type' : 'POST',
+      'url'  : '/home/blog/addComment/',
+      'data' : sprintf('name=%s&comment=%s&id=%s', encodeURIComponent(name), encodeURIComponent(comment), encodeURIComponent(window.location.href)),
+      'success' : function(data) {
+          initComment();
+          $('.js-name').val('');
+          $('.js-comment').val('');
+      }
+    })
+  }
+});
+
+</script>
+<script type="text/javascript" src="http://hm.baidu.com/h.js?fb1a70589b6397ff055728e0196175d5"></script>
+
+</body>
+</html>

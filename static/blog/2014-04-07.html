@@ -1,0 +1,347 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="generator" content="pandoc" />
+
+<link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
+<link rel="stylesheet" href="/static/css/blog.css" type="text/css"/>
+
+<title>翻译和详解gawk 4.0.0特性</title>
+<meta name="keywords" content="gawk翻译,gawk详解,gawk 4.0.0新特性,linux命令,gawk进阶,gawk新函数,gawk实例">
+<meta name="description" content="gawk翻译,gawk详解,gawk 4.0.0新特性,linux命令,gawk进阶,gawk新函数,gawk实例">
+<script type="text/javascript">
+var _speedMark = new Date();
+</script>
+</head>
+
+<body>
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+        <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav ml90">
+          <li data-slide="1" class="col-xs-4"><a href="/"  id="menu-link-1"><span class="glyphicon glyphicon-home"></span>首页</a></li>
+          <li data-slide="2" class="col-xs-4 active"><a href="/blog/" id="menu-link-2"><span class="glyphicon glyphicon-book"></span>博客</a></li>
+          <li data-slide="3" class="col-xs-4"><a href="/team/" id="menu-link-3" target="_blank"><span class="glyphicon glyphicon-user"></span>团队</a></li>
+        </ul>
+      <div class="row">
+        <div class="col-xs-4 active-menu"></div>
+      </div>
+          
+      </div>
+    </div>
+</div>
+<div class="content-title"><h1 class="title glyphicon glyphicon-leaf">翻译和详解gawk 4.0.0特性<span class="view glyphicon glyphicon-eye-open"></span><span class="time glyphicon glyphicon-time"></span></h1></div>
+
+<div class="content">
+	<!---title:翻译和详解gawk 4.0.0特性-->
+<!---keywords:gawk翻译,gawk详解,gawk 4.0.0新特性,linux命令,gawk进阶,gawk新函数,gawk实例-->
+
+<p>gawk是awk的gun版本，包含原有的awk功能，也新增了不少特性，包括内建函数，支持无限制域数等，使用人群也很大，一般的机器都会预装，现在我机器上gawk版本是4.0.1。gawk 4.0.0增加了很多特性，详细请看<a href="http://lists.gnu.org/archive/html/info-gnu/2011-06/msg00013.html">官方列表</a>，里面提到了31个更新，都是从gawk3.1.8版本到4.0.0版本，查看机器预装的gawk版本：<code>gawk --version</code>即可看到gawk的版本。</p>
+<p>翻译一些英文技术文档是我今年的一个技术任务，下个阶段将会挑战一个MVVM框架，所以现在先对一篇简单的文档进行尝试，做好热身，如有出入请留言提醒修正。</p>
+<blockquote>
+<p>1.The special files /dev/pid, /dev/ppid, /dev/pgrpid and /dev/user are now completely gone. Use PROCINFO instead.</p>
+</blockquote>
+<p>系统文件：/dev/pid, /dev/ppid, /dev/pgrpid, /dev/user不再使用，现使用PROCINFO来代替。eg：查看当前使用的gawk版本：<code>awk 'BEGIN { print PROCINFO[&quot;version&quot;] }'</code>。测试发现为只读属性，不可更改：<code>awk 'BEGIN{&quot;date&quot; | getline time; print time; PROCINFO[&quot;strftime&quot;] = &quot;%Y&quot;; &quot;date&quot; | getline time; print time; }'</code>，PROCINFO相当于一个读取系统属性的句柄，如pid，uid。</p>
+<blockquote>
+<p>2.The POSIX 2008 behavior for 'sub' and 'gsub' are now the default. THIS CHANGES BEHAVIOR!!!!</p>
+</blockquote>
+<p>为了兼容通用接口，方便移植其它平台，<code>sub</code>和<code>gsub</code>在4.0.0里对<code>/</code>的处理采用posix标准处理。由于找不到3.1.8的版本，暂时没有演示对比的例子。</p>
+<blockquote>
+<p>3.The and escape sequences are now recognized in regular expressions.</p>
+</blockquote>
+<p>空白字符<code>\s</code>和非空白字符<code>\S</code>将成为可识别的正则元字符：<code>echo &quot;a b&quot; | awk '{ sub(/\s/, &quot;====&quot;, $0); print $0}'</code>，输出：<code>a====b</code></p>
+<blockquote>
+<p>4.The split() function accepts an optional fourth argument which is an array to hold the values of the separators.</p>
+</blockquote>
+<p><code>split()</code>函数支持第四个参数array来接收分隔符。eg：<code>echo &quot;a-bb|ccc&quot; | awk '{n = split($0, t, &quot;[-|]&quot;, o); for(i=1; i&lt;=n; i++) print t[i], o[i]}'</code>，输出为：</p>
+<pre><code>a -
+bb |
+ccc </code></pre>
+<blockquote>
+<p>5.The new -b / --characters-as-bytes option means &quot;hands off my data&quot;; gawk won't try to treat input as a multibyte string.</p>
+</blockquote>
+<p>新增参数 <code>-b --characters-as-bytes</code> 意味着不会改动原数据，这样的话，gawk就不会把输入当作多字节字符串了</p>
+<blockquote>
+<p>6.There is a new --sandbox option; see the doc.<br />--sandbox<br /> Disable the system() function, input redirections with getline, output redirections with print and printf, and dynamic extensions. This is particularly useful when you want to run awk scripts from questionable sources and need to make sure the scripts can't access your system (other than the specified input data file).</p>
+</blockquote>
+<p>新增特性：沙箱；详情看文档。增加参数 <code>--sandbox</code>时，<code>system()</code>方法将不能使用，输入需要通过<code>getline</code>导入，输出则需要通过<code>print</code>，<code>printf</code>和动态扩展。这个特性在你调试一些数据来源不可靠、并且保证脚本不涉及到系统（除了来源数据）。这个沙箱功能对于你在网上看到的一些脚本，想复制到本地来练习时，就显得重要了。因为你不知道你复制下来的脚本会对你的机器做什么事情，甚至你复制下来的内容就不是你所看到的，确实存在这样的网站。</p>
+<blockquote>
+<p>7.Indirect function calls are now available.</p>
+</blockquote>
+<p><code>indirect</code>方法可以使用。</p>
+<blockquote>
+<p>8.Interval expressions are now part of default regular expressions for GNU Awk syntax.</p>
+</blockquote>
+<p>正则匹配的间隔现已成为gawk正则请求的一部分。eg：<code>awk '/a{2,}/ {print ;}' example</code></p>
+<blockquote>
+<p>9.--gen-po is now correctly named --gen-pot.</p>
+</blockquote>
+<p><code>--gen-po</code>已更名为<code>--gen-pot</code>。</p>
+<blockquote>
+<p>10.switch / case is now enabled by default. There's no longer a need for a configure-time option.</p>
+</blockquote>
+<p><code>switch / case</code>已经默认支持，不需要设置配置选项。既然是新特性，那写一个例子：</p>
+<pre><code>$ seq 4 | awk &#39;{
+    switch($1%2) {
+        case &quot;0&quot;: 
+            printf(&quot;even num %s\n&quot;, $1);
+            break;
+        default: 
+            printf(&quot;odd num %s\n&quot;, $1);
+            break;
+    } 
+}&#39;
+
+odd num 1
+even num 2
+odd num 3
+even num 4</code></pre>
+<blockquote>
+<p>11.Gawk now supports BEGINFILE and ENDFILE. See the doc for details.</p>
+</blockquote>
+<p>gawk现已支持<code>BEGINFILE</code>，<code>ENDFILE</code>，具体用法看详情。</p>
+<pre><code>$ awk &#39;BEGINFILE{printf(&quot;start 2 read file %s\n&quot;, FILENAME)}{print;} ENDFILE {printf(&quot;end reading %s\n&quot;, FILENAME);}&#39; xx yy
+start 2 read file xx
+this is file xx&#39;s content
+end reading xx
+start 2 read file yy
+this is file yy&#39;s content
+end reading yy</code></pre>
+<blockquote>
+<p>12.Directories named on the command line now produce a warning, not a fatal error, unless --posix or --traditional.</p>
+</blockquote>
+<p>在命令行里使用目录名将只报警，而不是错误，除非使用了<code>--posix</code>或者<code>--traditional</code>参数。</p>
+<blockquote>
+<p>13.The new FPAT variable allows you to specify a regexp that matches the fields, instead of matching the field separator. The new patsplit() function gives the same capability for splitting.</p>
+</blockquote>
+<p>现在有一个新的内建变量<code>FPAT</code>可以使用了，它将可以实现使用正则来划分字段，而不再是单纯的字符。同样<code>patsplit()</code>函数也实现了同样的功能。且看官方样例，FPAT参数得以使用正则来精准划分字段，例如，当你想划分<code>,</code>来分隔的字段，但又要保留<code>&quot;</code>里的<code>,</code>，那么单一个<code>FS</code>是无法满足你的要求了。</p>
+<pre><code>$ cat FPAT
+Robbins,Arnold,&quot;1234 A Pretty Street, NE&quot;,MyTown,MyState,12345-6789,USA
+$ awk -vFPAT=&#39;([^,]+)|(&quot;[^&quot;]+&quot;)&#39; &#39;{ for (i=1; i&lt;= NF; i++) print $i&quot;\t&quot;;}&#39; FPAT
+Robbins    
+Arnold    
+&quot;1234 A Pretty Street, NE&quot;    
+MyTown    
+MyState    
+12345-6789    
+USA    </code></pre>
+<blockquote>
+<p>14.All long options now have short options, for use in `#!' scripts.</p>
+</blockquote>
+<blockquote>
+<p>15.Support for IPv6 is added via the /inet6/... special file. /inet4/... forces IPv4 and /inet chooses the system default (probably IPv4).</p>
+</blockquote>
+<p>通过使用<code>/inet6/</code> 或 <code>/inet4</code> 来强制使用特定协议。</p>
+<blockquote>
+<p>16.Added a warning for /[:space:]/ that should be /[[:space:]]/.</p>
+</blockquote>
+<p>对使用 <code>/[:space:]/</code>增加了一个警告，应该为<code>/[[:space:]]/</code></p>
+<pre><code> $ awk &#39;/[:space:]/ {print}&#39; sub
+ awk: cmd. line:1: warning: regexp component `[:space:]&#39; should probably be `[[:space:]]&#39;</code></pre>
+<blockquote>
+<p>17.Merged with John Haque's byte code internals. Adds dgawk debugger and possibly improved performance.</p>
+</blockquote>
+<p>加入了John Haque的字节码引擎，并且增加了dgawk调试器，性能也小有程度的提升。</p>
+<blockquote>
+<p>18.<code>break</code> and <code>continue</code> are no longer valid outside a loop, even with --traditional.</p>
+</blockquote>
+<p><code>break</code>和<code>continue</code>在循环之外使用将不合法，即使有--跟之前一样。</p>
+<pre><code>$ awk &#39;BEGIN{break}&#39; 
+# v 4.0.1  
+awk: cmd. line:1: error: `break&#39; is not allowed outside a loop or switch
+# v 3.1.3
+awk: cmd. line:1: fatal: `break&#39; outside a loop is not allowed</code></pre>
+<blockquote>
+<p>19.POSIX character classes work with --traditional (BWK awk supports them).</p>
+</blockquote>
+<blockquote>
+<p>20.Nuked redundant --compat, --copyleft, and --usage long options.</p>
+</blockquote>
+<blockquote>
+<p>21.Arrays of arrays added. See the doc.</p>
+</blockquote>
+<blockquote>
+<p>22.Per the GNU Coding Standards, dynamic extensions must now define a global symbol indicating that they are GPL-compatible. See the documentation and example extensions. THIS CHANGES BEHAVIOR!!!!</p>
+</blockquote>
+<blockquote>
+<p>23.In POSIX mode, string comparisons use strcoll/wcscoll. THIS CHANGES BEHAVIOR!!!!</p>
+</blockquote>
+<blockquote>
+<p>24.The option for raw sockets was removed, since it was never implemented.</p>
+</blockquote>
+<p>原始套接字选项被移除，因为它从未被实现过。</p>
+<blockquote>
+<p>25.Gawk now treats ranges of the form [d-h] as if they were in the C locale, no matter what kind of regexp is being used, and even if --posix. The latest POSIX standard allows this, and the documentation has been updated. Maybe this will stop all the questions about [a-z] matching uppercase letters. THIS CHANGES BEHAVIOR!!!!</p>
+</blockquote>
+<p>gawk现在处理范围格式就像是在c语言环境一样，无论使用哪种正则表达式，甚至是posix。最新的POSIX标准已经支持，相关文档也已更新。这可能会解决<code>[a-z]</code>匹配命中大写字母，注意这种变化。</p>
+<blockquote>
+<p>26.PROCINFO[&quot;strftime&quot;] now holds the default format for strftime().</p>
+</blockquote>
+<p>PROCINFO[&quot;strftime&quot;]即为<code>strftime()</code>的输出格式。</p>
+<blockquote>
+<p>27.Updated to latest infrastructure: Autoconf 2.68, Automake 1.11.1, Gettext 0.18.1, Bison 2.5.</p>
+</blockquote>
+<p>更新了最新的基础框架Autoconf 2.68, Automake 1.11.1, Gettext 0.18.1, Bison 2.5</p>
+<blockquote>
+<p>28.Many code cleanups. Removed code for many old, unsupported systems:<br />- Atari<br />- Amiga<br />- BeOS<br />- Cray<br />- MIPS RiscOS<br />- MS-DOS with Microsoft Compiler<br />- MS-Windows with Microsoft Compiler<br />- NeXT<br />- SunOS 3.x, Sun 386 (Road Runner)<br />- Tandem (non-POSIX)<br />- Prestandard VAX C compiler for VAX/VMS<br />- Probably others that I've forgotten</p>
+</blockquote>
+<blockquote>
+<p>29.If PROCINFO[&quot;sorted_in&quot;] exists, for(iggy in foo) loops sort the indices before looping over them. The value of this element provides control over how the indices are sorted before the loop traversal starts. See the manual.</p>
+</blockquote>
+<blockquote>
+<p>30.A new isarray() function exists to distinguish if an item is an array or not, to make it possible to traverse multidimensional arrays.</p>
+</blockquote>
+<p>新增了一个判断是否为数组的方法<code>isarray()</code>，并且能判断多维数组，返回值为<code>0</code>，<code>1</code>。</p>
+<blockquote>
+<p>31.asort() and asorti() take a third argument specifying how to sort. See the doc.</p>
+</blockquote>
+<p><code>asort()</code>和<code>asorti()</code>支持第三个参数来设置排序方式，顺序<code>ascending</code>， 逆序<code>descending</code>。写了测试语句，居然给我报个错，一点不给面子： <code>awk '{a[$1]=$1}END{n=asort(a, b, &quot;ascending&quot;);for(i=1; i&lt;=n; i++)print b[i];}' iis</code><br />awk: cmd. line:1: (FILENAME=iis FNR=14) fatal: sort comparison function <code>ascending</code> is not defined</p>
+<p>接下来记录下我对awk脚本的学习过程：<a href="http://www.huamanshu.com/blog/2014-04-09.html">awk脚本进阶攻略</a></p>
+</div>
+
+<hr class="blog-hr">
+
+<div class="container blog-container prev-next-box">
+  <ul class="pager">
+    <li class="previous"><a href="javascript:void(0);" id="prev">&larr; Older</a></li>
+    <li class="next"><a href="javascript:void(0);" id="next">Newer &rarr;</a></li>
+  </ul>
+</div>
+
+<div class="content" data-slide="1">
+	<div class="blog-container">
+		<div id="home-row-1" class="clearfix">
+			<div id="comments"></div>
+		</div>
+	</div>
+</div>
+
+<div class="container blog-container comment-box">
+		<form class="form-horizontal" role="form">
+	  <div class="form-group">
+	    <div class="col-sm-3">
+	      <input type="text" class="form-control js-name" placeholder="名字不重要">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-10">
+	      <textarea class="form-control inputComment js-comment" placeholder="深有感触，写点我的想法"> </textarea>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-10">
+	      <button type="submit" class="btn btn-default js-submit">发表评论</button>
+	    </div>
+	  </div>
+	</form>
+</div>
+<!-- <div id="blog-footer"><a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博</a> | <a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="glyphicon glyphicon-envelope email-footer">wushuiyong@huamanshu.com</a> </div> -->
+<div id="blog-footer">©2014 huamanshu. All rights reserved</div><div class="hide" style="display:none"><script type="text/javascript" src="http://hm.baidu.com/h.js?fb1a70589b6397ff055728e0196175d5"></script></div>
+<script src="/static/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="/static/js/jquery.easing.1.3.js" type="text/javascript"></script>
+<script src="/static/js/script.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(e) {
+  var lis = $('.nav > li');
+  menu_focus( lis[1], 1 );
+  
+  var sprintf = function() {
+      var arg = arguments,
+          str = arg[0] || '',
+          i, n;
+      for (i = 1, n = arg.length; i < n; i++) {
+          str = str.replace(/%s/, arg[i]);
+      }
+      return str;
+  }
+
+  // 初始化评论
+  var initComment = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/getComment/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+          var tpl = '';
+          for (key in data.comments) {
+              var c = data.comments[key];
+              tpl += sprintf("<blockquote><p><em>%s</em>%s</p></blockquote>", c.name, c.comment);
+          }
+          $('#comments').html(tpl).show();
+      }
+    })
+  }
+  initComment();
+
+  // 初始化浏览次数
+  var initViewCount = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/viewCount/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+          $('.time').text(data.time);
+          $('.view').text(data.view);
+      }
+    });
+  }
+  initViewCount();
+
+  // 获取上一篇下一篇
+  var initNextPrev = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/getNextPrev/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+        var re = /\/index\d.html/
+        var nTitle = re.test(data.n.url) ? '下一页' : data.n.title;
+        var pTitle = re.test(data.p.url) ? '上一页' : data.p.title;
+        data.n ? $('#next').attr('href', data.n.url).html(nTitle + ' &rarr;') : $('#next').hide();
+        data.p ? $('#prev').attr('href', data.p.url).html('&larr; ' + pTitle) : $('#prev').hide();
+      }
+    });
+  }
+  initNextPrev();
+
+  // 写完点提交或者ctrl+enter
+  if (event.ctrlKey && event.keyCode == '13') {
+    addComment();
+  }
+  $('.js-submit').click(function(e) {
+    e.preventDefault();
+    addComment();
+  })
+
+  // 添加评论
+  var addComment = function() {
+    var name = $('.js-name').val();
+    var comment = $('.js-comment').val();
+
+    $.ajax({
+      'type' : 'POST',
+      'url'  : '/home/blog/addComment/',
+      'data' : sprintf('name=%s&comment=%s&id=%s', encodeURIComponent(name), encodeURIComponent(comment), encodeURIComponent(window.location.href)),
+      'success' : function(data) {
+          initComment();
+          $('.js-name').val('');
+          $('.js-comment').val('');
+      }
+    })
+  }
+});
+
+</script>
+<script type="text/javascript" src="http://hm.baidu.com/h.js?fb1a70589b6397ff055728e0196175d5"></script>
+
+</body>
+</html>

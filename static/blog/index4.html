@@ -1,0 +1,378 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="generator" content="pandoc" />
+
+<link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
+<link rel="stylesheet" href="/static/css/blog.css" type="text/css"/>
+
+<script type="text/javascript">
+var _speedMark = new Date();
+</script>
+</head>
+
+<body>
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+        <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav ml90">
+          <li data-slide="1" class="col-xs-4"><a href="/"  id="menu-link-1"><span class="glyphicon glyphicon-home"></span>首页</a></li>
+          <li data-slide="2" class="col-xs-4 active"><a href="/blog/" id="menu-link-2"><span class="glyphicon glyphicon-book"></span>博客</a></li>
+          <li data-slide="3" class="col-xs-4"><a href="/team/" id="menu-link-3" target="_blank"><span class="glyphicon glyphicon-user"></span>团队</a></li>
+        </ul>
+      <div class="row">
+        <div class="col-xs-4 active-menu"></div>
+      </div>
+          
+      </div>
+    </div>
+</div>
+
+
+<div class="content">
+	<p>......</p>
+<p><br></p>
+<h2 id="实现一个四则混合运算计算器"><a href="/blog/2013-07-30.html">实现一个四则混合运算计算器</a></h2>
+<hr />
+<p>2013-07-30</p>
+<p>在学校的时候没有好好学习编译原理，现在才发现有些东西真的好实用，像中缀表达式，可以做个简单的计算器；像毛概，凑够10本能吃顿散伙饭。 所谓的计算器就是对 2 * ( 1 + 3 ) + 9 能计算其值，而计算机不能对这样的中缀表达式读懂，它需要转化成后缀表达式，如 2 1 3 + * 9 + ；简单的来说就是去括号，这样的话，对于计算机来说，只有一个规则，那就是来一个运算符就做一次运算。 以下做一个简单的介绍，是个人觉得自己对这个过程描述，挺有意见的，以前我说的话，人家都听不懂什么意思，但我又想表达得大家都一下都明白了，好有成就感啊！</p>
+<pre><code>1）读字符X
+2）X为数字，直接进 nifix（栈）
+3）X为运算符，如果X的优先级大于 op 栈顶，则直接进 op 栈；否则把 op 栈弹出顶元素，压入 nifix栈，并把X压栈 op</code></pre>
+<p>......</p>
+<p><br></p>
+<h2 id="hbase伪分布搭建与应用测试"><a href="/blog/2013-07-28.html">Hbase伪分布搭建与应用测试</a></h2>
+<hr />
+<p>2013-07-28</p>
+<p>速度写下环境搭建第二步，主要是hadoop配置，hbase配置，然后zookeeper看个人需要；最后要做的就是做实例测试。</p>
+<p>hadoop配置： 1. apache站点http://www.apache.org/dyn/closer.cgi/hadoop/common/下载hadoop你喜欢的版本 2.解压hadoop-1.2.0.tar.gz，移到个人喜欢的路径，如我的 /usr/local/hadoop 3.更改conf下的配置文件（所列的，都放到configuration里面） ......</p>
+<p><br></p>
+<h2 id="php实现kmp算法查找"><a href="/blog/2013-07-31.html">PHP实现KMP算法查找</a></h2>
+<hr />
+<p>2013-07-31</p>
+<p>看到阮一峰的KMP算法解释，甚为有兴趣实现。阮一峰写的东西可以说是大师写给菜鸟的知识普及，如果看他的这个KMP算法还不理解，也不要看其它的教程了，白瞎，说明你应该转行了。</p>
+<pre><code>&lt;?php
+// 对查找字符（串）进行计算匹配值
+function KMP($str) {
+    $K = array(0);
+    $M = 0;</code></pre>
+<p>......</p>
+<p><br></p>
+<h2 id="实现一个四则混合运算计算器-1"><a href="/blog/2013-07-30.html">实现一个四则混合运算计算器</a></h2>
+<hr />
+<p>2013-07-30</p>
+<p>在学校的时候没有好好学习编译原理，现在才发现有些东西真的好实用，像中缀表达式，可以做个简单的计算器；像毛概，凑够10本能吃顿散伙饭。 所谓的计算器就是对 2 * ( 1 + 3 ) + 9 能计算其值，而计算机不能对这样的中缀表达式读懂，它需要转化成后缀表达式，如 2 1 3 + * 9 + ；简单的来说就是去括号，这样的话，对于计算机来说，只有一个规则，那就是来一个运算符就做一次运算。 以下做一个简单的介绍，是个人觉得自己对这个过程描述，挺有意见的，以前我说的话，人家都听不懂什么意思，但我又想表达得大家都一下都明白了，好有成就感啊！</p>
+<pre><code>1）读字符X
+2）X为数字，直接进 nifix（栈）
+3）X为运算符，如果X的优先级大于 op 栈顶，则直接进 op 栈；否则把 op 栈弹出顶元素，压入 nifix栈，并把X压栈 op</code></pre>
+<p>......</p>
+<p><br></p>
+<h2 id="hbase伪分布搭建与应用测试-1"><a href="/blog/2013-07-28.html">Hbase伪分布搭建与应用测试</a></h2>
+<hr />
+<p>2013-07-28</p>
+<p>速度写下环境搭建第二步，主要是hadoop配置，hbase配置，然后zookeeper看个人需要；最后要做的就是做实例测试。</p>
+<p>hadoop配置： 1. apache站点http://www.apache.org/dyn/closer.cgi/hadoop/common/下载hadoop你喜欢的版本 2.解压hadoop-1.2.0.tar.gz，移到个人喜欢的路径，如我的 /usr/local/hadoop 3.更改conf下的配置文件（所列的，都放到configuration里面） ......</p>
+<p><br></p>
+<h2 id="php实现kmp算法查找-1"><a href="/blog/2013-07-31.html">PHP实现KMP算法查找</a></h2>
+<hr />
+<p>2013-07-31</p>
+<p>看到阮一峰的KMP算法解释，甚为有兴趣实现。阮一峰写的东西可以说是大师写给菜鸟的知识普及，如果看他的这个KMP算法还不理解，也不要看其它的教程了，白瞎，说明你应该转行了。</p>
+<pre><code>&lt;?php
+// 对查找字符（串）进行计算匹配值
+function KMP($str) {
+    $K = array(0);
+    $M = 0;</code></pre>
+<p>......</p>
+<p><br></p>
+<h2 id="实现一个四则混合运算计算器-2"><a href="/blog/2013-07-30.html">实现一个四则混合运算计算器</a></h2>
+<hr />
+<p>2013-07-30</p>
+<p>在学校的时候没有好好学习编译原理，现在才发现有些东西真的好实用，像中缀表达式，可以做个简单的计算器；像毛概，凑够10本能吃顿散伙饭。 所谓的计算器就是对 2 * ( 1 + 3 ) + 9 能计算其值，而计算机不能对这样的中缀表达式读懂，它需要转化成后缀表达式，如 2 1 3 + * 9 + ；简单的来说就是去括号，这样的话，对于计算机来说，只有一个规则，那就是来一个运算符就做一次运算。 以下做一个简单的介绍，是个人觉得自己对这个过程描述，挺有意见的，以前我说的话，人家都听不懂什么意思，但我又想表达得大家都一下都明白了，好有成就感啊！</p>
+<pre><code>1）读字符X
+2）X为数字，直接进 nifix（栈）
+3）X为运算符，如果X的优先级大于 op 栈顶，则直接进 op 栈；否则把 op 栈弹出顶元素，压入 nifix栈，并把X压栈 op</code></pre>
+<p>......</p>
+<p><br></p>
+<h2 id="hbase伪分布搭建与应用测试-2"><a href="/blog/2013-07-28.html">Hbase伪分布搭建与应用测试</a></h2>
+<hr />
+<p>2013-07-28</p>
+<p>速度写下环境搭建第二步，主要是hadoop配置，hbase配置，然后zookeeper看个人需要；最后要做的就是做实例测试。</p>
+<p>hadoop配置： 1. apache站点http://www.apache.org/dyn/closer.cgi/hadoop/common/下载hadoop你喜欢的版本 2.解压hadoop-1.2.0.tar.gz，移到个人喜欢的路径，如我的 /usr/local/hadoop 3.更改conf下的配置文件（所列的，都放到configuration里面） ......</p>
+<p><br></p>
+<h2 id="php实现kmp算法查找-2"><a href="/blog/2013-07-31.html">PHP实现KMP算法查找</a></h2>
+<hr />
+<p>2013-07-31</p>
+<p>看到阮一峰的KMP算法解释，甚为有兴趣实现。阮一峰写的东西可以说是大师写给菜鸟的知识普及，如果看他的这个KMP算法还不理解，也不要看其它的教程了，白瞎，说明你应该转行了。</p>
+<pre><code>&lt;?php
+// 对查找字符（串）进行计算匹配值
+function KMP($str) {
+    $K = array(0);
+    $M = 0;</code></pre>
+<p>......</p>
+<p><br></p>
+<h2 id="实现一个四则混合运算计算器-3"><a href="/blog/2013-07-30.html">实现一个四则混合运算计算器</a></h2>
+<hr />
+<p>2013-07-30</p>
+<p>在学校的时候没有好好学习编译原理，现在才发现有些东西真的好实用，像中缀表达式，可以做个简单的计算器；像毛概，凑够10本能吃顿散伙饭。 所谓的计算器就是对 2 * ( 1 + 3 ) + 9 能计算其值，而计算机不能对这样的中缀表达式读懂，它需要转化成后缀表达式，如 2 1 3 + * 9 + ；简单的来说就是去括号，这样的话，对于计算机来说，只有一个规则，那就是来一个运算符就做一次运算。 以下做一个简单的介绍，是个人觉得自己对这个过程描述，挺有意见的，以前我说的话，人家都听不懂什么意思，但我又想表达得大家都一下都明白了，好有成就感啊！</p>
+<pre><code>1）读字符X
+2）X为数字，直接进 nifix（栈）
+3）X为运算符，如果X的优先级大于 op 栈顶，则直接进 op 栈；否则把 op 栈弹出顶元素，压入 nifix栈，并把X压栈 op</code></pre>
+<p>......</p>
+<p><br></p>
+<h2 id="hbase伪分布搭建与应用测试-3"><a href="/blog/2013-07-28.html">Hbase伪分布搭建与应用测试</a></h2>
+<hr />
+<p>2013-07-28</p>
+<p>速度写下环境搭建第二步，主要是hadoop配置，hbase配置，然后zookeeper看个人需要；最后要做的就是做实例测试。</p>
+<p>hadoop配置： 1. apache站点http://www.apache.org/dyn/closer.cgi/hadoop/common/下载hadoop你喜欢的版本 2.解压hadoop-1.2.0.tar.gz，移到个人喜欢的路径，如我的 /usr/local/hadoop 3.更改conf下的配置文件（所列的，都放到configuration里面） ......</p>
+<p><br></p>
+<h2 id="php实现kmp算法查找-3"><a href="/blog/2013-07-31.html">PHP实现KMP算法查找</a></h2>
+<hr />
+<p>2013-07-31</p>
+<p>看到阮一峰的KMP算法解释，甚为有兴趣实现。阮一峰写的东西可以说是大师写给菜鸟的知识普及，如果看他的这个KMP算法还不理解，也不要看其它的教程了，白瞎，说明你应该转行了。</p>
+<pre><code>&lt;?php
+// 对查找字符（串）进行计算匹配值
+function KMP($str) {
+    $K = array(0);
+    $M = 0;</code></pre>
+<p>......</p>
+<p><br></p>
+<h2 id="实现一个四则混合运算计算器-4"><a href="/blog/2013-07-30.html">实现一个四则混合运算计算器</a></h2>
+<hr />
+<p>2013-07-30</p>
+<p>在学校的时候没有好好学习编译原理，现在才发现有些东西真的好实用，像中缀表达式，可以做个简单的计算器；像毛概，凑够10本能吃顿散伙饭。 所谓的计算器就是对 2 * ( 1 + 3 ) + 9 能计算其值，而计算机不能对这样的中缀表达式读懂，它需要转化成后缀表达式，如 2 1 3 + * 9 + ；简单的来说就是去括号，这样的话，对于计算机来说，只有一个规则，那就是来一个运算符就做一次运算。 以下做一个简单的介绍，是个人觉得自己对这个过程描述，挺有意见的，以前我说的话，人家都听不懂什么意思，但我又想表达得大家都一下都明白了，好有成就感啊！</p>
+<pre><code>1）读字符X
+2）X为数字，直接进 nifix（栈）
+3）X为运算符，如果X的优先级大于 op 栈顶，则直接进 op 栈；否则把 op 栈弹出顶元素，压入 nifix栈，并把X压栈 op</code></pre>
+<p>......</p>
+<p><br></p>
+<h2 id="hbase伪分布搭建与应用测试-4"><a href="/blog/2013-07-28.html">Hbase伪分布搭建与应用测试</a></h2>
+<hr />
+<p>2013-07-28</p>
+<p>速度写下环境搭建第二步，主要是hadoop配置，hbase配置，然后zookeeper看个人需要；最后要做的就是做实例测试。</p>
+<p>hadoop配置： 1. apache站点http://www.apache.org/dyn/closer.cgi/hadoop/common/下载hadoop你喜欢的版本 2.解压hadoop-1.2.0.tar.gz，移到个人喜欢的路径，如我的 /usr/local/hadoop 3.更改conf下的配置文件（所列的，都放到configuration里面） ......</p>
+<p><br></p>
+<h2 id="php实现kmp算法查找-4"><a href="/blog/2013-07-31.html">PHP实现KMP算法查找</a></h2>
+<hr />
+<p>2013-07-31</p>
+<p>看到阮一峰的KMP算法解释，甚为有兴趣实现。阮一峰写的东西可以说是大师写给菜鸟的知识普及，如果看他的这个KMP算法还不理解，也不要看其它的教程了，白瞎，说明你应该转行了。</p>
+<pre><code>&lt;?php
+// 对查找字符（串）进行计算匹配值
+function KMP($str) {
+    $K = array(0);
+    $M = 0;</code></pre>
+<p>......</p>
+<p><br></p>
+<h2 id="实现一个四则混合运算计算器-5"><a href="/blog/2013-07-30.html">实现一个四则混合运算计算器</a></h2>
+<hr />
+<p>2013-07-30</p>
+<p>在学校的时候没有好好学习编译原理，现在才发现有些东西真的好实用，像中缀表达式，可以做个简单的计算器；像毛概，凑够10本能吃顿散伙饭。 所谓的计算器就是对 2 * ( 1 + 3 ) + 9 能计算其值，而计算机不能对这样的中缀表达式读懂，它需要转化成后缀表达式，如 2 1 3 + * 9 + ；简单的来说就是去括号，这样的话，对于计算机来说，只有一个规则，那就是来一个运算符就做一次运算。 以下做一个简单的介绍，是个人觉得自己对这个过程描述，挺有意见的，以前我说的话，人家都听不懂什么意思，但我又想表达得大家都一下都明白了，好有成就感啊！</p>
+<pre><code>1）读字符X
+2）X为数字，直接进 nifix（栈）
+3）X为运算符，如果X的优先级大于 op 栈顶，则直接进 op 栈；否则把 op 栈弹出顶元素，压入 nifix栈，并把X压栈 op</code></pre>
+<p>......</p>
+<p><br></p>
+<h2 id="hbase伪分布搭建与应用测试-5"><a href="/blog/2013-07-28.html">Hbase伪分布搭建与应用测试</a></h2>
+<hr />
+<p>2013-07-28</p>
+<p>速度写下环境搭建第二步，主要是hadoop配置，hbase配置，然后zookeeper看个人需要；最后要做的就是做实例测试。</p>
+<p>hadoop配置： 1. apache站点http://www.apache.org/dyn/closer.cgi/hadoop/common/下载hadoop你喜欢的版本 2.解压hadoop-1.2.0.tar.gz，移到个人喜欢的路径，如我的 /usr/local/hadoop 3.更改conf下的配置文件（所列的，都放到configuration里面） ......</p>
+<p><br></p>
+<h2 id="php实现kmp算法查找-5"><a href="/blog/2013-07-31.html">PHP实现KMP算法查找</a></h2>
+<hr />
+<p>2013-07-31</p>
+<p>看到阮一峰的KMP算法解释，甚为有兴趣实现。阮一峰写的东西可以说是大师写给菜鸟的知识普及，如果看他的这个KMP算法还不理解，也不要看其它的教程了，白瞎，说明你应该转行了。</p>
+<pre><code>&lt;?php
+// 对查找字符（串）进行计算匹配值
+function KMP($str) {
+    $K = array(0);
+    $M = 0;</code></pre>
+<p>......</p>
+<p><br></p>
+<h2 id="实现一个四则混合运算计算器-6"><a href="/blog/2013-07-30.html">实现一个四则混合运算计算器</a></h2>
+<hr />
+<p>2013-07-30</p>
+<p>在学校的时候没有好好学习编译原理，现在才发现有些东西真的好实用，像中缀表达式，可以做个简单的计算器；像毛概，凑够10本能吃顿散伙饭。 所谓的计算器就是对 2 * ( 1 + 3 ) + 9 能计算其值，而计算机不能对这样的中缀表达式读懂，它需要转化成后缀表达式，如 2 1 3 + * 9 + ；简单的来说就是去括号，这样的话，对于计算机来说，只有一个规则，那就是来一个运算符就做一次运算。 以下做一个简单的介绍，是个人觉得自己对这个过程描述，挺有意见的，以前我说的话，人家都听不懂什么意思，但我又想表达得大家都一下都明白了，好有成就感啊！</p>
+<pre><code>1）读字符X
+2）X为数字，直接进 nifix（栈）
+3）X为运算符，如果X的优先级大于 op 栈顶，则直接进 op 栈；否则把 op 栈弹出顶元素，压入 nifix栈，并把X压栈 op</code></pre>
+<p>......</p>
+<p><br></p>
+<h2 id="hbase伪分布搭建与应用测试-6"><a href="/blog/2013-07-28.html">Hbase伪分布搭建与应用测试</a></h2>
+<hr />
+<p>2013-07-28</p>
+<p>速度写下环境搭建第二步，主要是hadoop配置，hbase配置，然后zookeeper看个人需要；最后要做的就是做实例测试。</p>
+<p>hadoop配置： 1. apache站点http://www.apache.org/dyn/closer.cgi/hadoop/common/下载hadoop你喜欢的版本 2.解压hadoop-1.2.0.tar.gz，移到个人喜欢的路径，如我的 /usr/local/hadoop 3.更改conf下的配置文件（所列的，都放到configuration里面） ......</p>
+<p><br></p>
+<h2 id="php实现kmp算法查找-6"><a href="/blog/2013-07-31.html">PHP实现KMP算法查找</a></h2>
+<hr />
+<p>2013-07-31</p>
+<p>看到阮一峰的KMP算法解释，甚为有兴趣实现。阮一峰写的东西可以说是大师写给菜鸟的知识普及，如果看他的这个KMP算法还不理解，也不要看其它的教程了，白瞎，说明你应该转行了。</p>
+<pre><code>&lt;?php
+// 对查找字符（串）进行计算匹配值
+function KMP($str) {
+    $K = array(0);
+    $M = 0;</code></pre>
+<p>......</p>
+<p><br></p>
+<h2 id="实现一个四则混合运算计算器-7"><a href="/blog/2013-07-30.html">实现一个四则混合运算计算器</a></h2>
+<hr />
+<p>2013-07-30</p>
+<p>在学校的时候没有好好学习编译原理，现在才发现有些东西真的好实用，像中缀表达式，可以做个简单的计算器；像毛概，凑够10本能吃顿散伙饭。 所谓的计算器就是对 2 * ( 1 + 3 ) + 9 能计算其值，而计算机不能对这样的中缀表达式读懂，它需要转化成后缀表达式，如 2 1 3 + * 9 + ；简单的来说就是去括号，这样的话，对于计算机来说，只有一个规则，那就是来一个运算符就做一次运算。 以下做一个简单的介绍，是个人觉得自己对这个过程描述，挺有意见的，以前我说的话，人家都听不懂什么意思，但我又想表达得大家都一下都明白了，好有成就感啊！</p>
+<pre><code>1）读字符X
+2）X为数字，直接进 nifix（栈）
+3）X为运算符，如果X的优先级大于 op 栈顶，则直接进 op 栈；否则把 op 栈弹出顶元素，压入 nifix栈，并把X压栈 op</code></pre>
+<p>......</p>
+<p><br></p>
+<h2 id="hbase伪分布搭建与应用测试-7"><a href="/blog/2013-07-28.html">Hbase伪分布搭建与应用测试</a></h2>
+<hr />
+<p>2013-07-28</p>
+<p>速度写下环境搭建第二步，主要是hadoop配置，hbase配置，然后zookeeper看个人需要；最后要做的就是做实例测试。</p>
+<p>hadoop配置： 1. apache站点http://www.apache.org/dyn/closer.cgi/hadoop/common/下载hadoop你喜欢的版本 2.解压hadoop-1.2.0.tar.gz，移到个人喜欢的路径，如我的 /usr/local/hadoop 3.更改conf下的配置文件（所列的，都放到configuration里面）</p>
+</div>
+
+<hr class="blog-hr">
+
+<div class="container blog-container prev-next-box">
+  <ul class="pager">
+    <li class="previous"><a href="javascript:void(0);" id="prev">&larr; Older</a></li>
+    <li class="next"><a href="javascript:void(0);" id="next">Newer &rarr;</a></li>
+  </ul>
+</div>
+
+<div class="content" data-slide="1">
+	<div class="blog-container">
+		<div id="home-row-1" class="clearfix">
+			<div id="comments"></div>
+		</div>
+	</div>
+</div>
+
+<div class="container blog-container comment-box">
+		<form class="form-horizontal" role="form">
+	  <div class="form-group">
+	    <div class="col-sm-3">
+	      <input type="text" class="form-control js-name" placeholder="名字不重要">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-10">
+	      <textarea class="form-control inputComment js-comment" placeholder="深有感触，写点我的想法"> </textarea>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-10">
+	      <button type="submit" class="btn btn-default js-submit">发表评论</button>
+	    </div>
+	  </div>
+	</form>
+</div>
+<!-- <div id="blog-footer"><a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博</a> | <a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="glyphicon glyphicon-envelope email-footer">wushuiyong@huamanshu.com</a> </div> -->
+<div id="blog-footer">©2014 huamanshu. All rights reserved</div><div class="hide" style="display:none"><script type="text/javascript" src="http://hm.baidu.com/h.js?fb1a70589b6397ff055728e0196175d5"></script></div>
+<script src="/static/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="/static/js/jquery.easing.1.3.js" type="text/javascript"></script>
+<script src="/static/js/script.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(e) {
+  var lis = $('.nav > li');
+  menu_focus( lis[1], 1 );
+  
+  var sprintf = function() {
+      var arg = arguments,
+          str = arg[0] || '',
+          i, n;
+      for (i = 1, n = arg.length; i < n; i++) {
+          str = str.replace(/%s/, arg[i]);
+      }
+      return str;
+  }
+
+  // 初始化评论
+  var initComment = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/getComment/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+          var tpl = '';
+          for (key in data.comments) {
+              var c = data.comments[key];
+              tpl += sprintf("<blockquote><p><em>%s</em>%s</p></blockquote>", c.name, c.comment);
+          }
+          $('#comments').html(tpl).show();
+      }
+    })
+  }
+  initComment();
+
+  // 初始化浏览次数
+  var initViewCount = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/viewCount/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+          $('.time').text(data.time);
+          $('.view').text(data.view);
+      }
+    });
+  }
+  initViewCount();
+
+  // 获取上一篇下一篇
+  var initNextPrev = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/getNextPrev/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+        var re = /\/index\d.html/
+        var nTitle = re.test(data.n.url) ? '下一页' : data.n.title;
+        var pTitle = re.test(data.p.url) ? '上一页' : data.p.title;
+        data.n ? $('#next').attr('href', data.n.url).html(nTitle + ' &rarr;') : $('#next').hide();
+        data.p ? $('#prev').attr('href', data.p.url).html('&larr; ' + pTitle) : $('#prev').hide();
+      }
+    });
+  }
+  initNextPrev();
+
+  // 写完点提交或者ctrl+enter
+  if (event.ctrlKey && event.keyCode == '13') {
+    addComment();
+  }
+  $('.js-submit').click(function(e) {
+    e.preventDefault();
+    addComment();
+  })
+
+  // 添加评论
+  var addComment = function() {
+    var name = $('.js-name').val();
+    var comment = $('.js-comment').val();
+
+    $.ajax({
+      'type' : 'POST',
+      'url'  : '/home/blog/addComment/',
+      'data' : sprintf('name=%s&comment=%s&id=%s', encodeURIComponent(name), encodeURIComponent(comment), encodeURIComponent(window.location.href)),
+      'success' : function(data) {
+          initComment();
+          $('.js-name').val('');
+          $('.js-comment').val('');
+      }
+    })
+  }
+});
+
+</script>
+<script type="text/javascript" src="http://hm.baidu.com/h.js?fb1a70589b6397ff055728e0196175d5"></script>
+
+</body>
+</html>

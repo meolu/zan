@@ -23,7 +23,7 @@ class Model {
 
     public function __call($func, $params) {
         if (method_exists($this->db, $func)) {
-            call_user_func_array(array($this->db, $func), $params);
+            return call_user_func_array(array($this->db, $func), $params);
         }
         // trigger_error('')
     }

@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="generator" content="pandoc" />
+
+<link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
+<link rel="stylesheet" href="/static/css/blog.css" type="text/css"/>
+
+<title>蛙泳小王子0.5分落后冠军</title>
+<meta name="keywords" content="哈哈，就是输了呗">
+<meta name="description" content="哈哈，就是输了呗">
+<script type="text/javascript">
+var _speedMark = new Date();
+</script>
+</head>
+
+<body>
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+        <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav ml90">
+          <li data-slide="1" class="col-xs-4"><a href="/"  id="menu-link-1"><span class="glyphicon glyphicon-home"></span>首页</a></li>
+          <li data-slide="2" class="col-xs-4 active"><a href="/blog/" id="menu-link-2"><span class="glyphicon glyphicon-book"></span>博客</a></li>
+          <li data-slide="3" class="col-xs-4"><a href="/team/" id="menu-link-3" target="_blank"><span class="glyphicon glyphicon-user"></span>团队</a></li>
+        </ul>
+      <div class="row">
+        <div class="col-xs-4 active-menu"></div>
+      </div>
+          
+      </div>
+    </div>
+</div>
+<div class="content-title"><h1 class="title glyphicon glyphicon-leaf">蛙泳小王子0.5分落后冠军<span class="view glyphicon glyphicon-eye-open"></span><span class="time glyphicon glyphicon-time"></span></h1></div>
+
+<div class="content">
+	<!---title:蛙泳小王子0.5分落后冠军-->
+<!---keywords:哈哈，就是输了呗-->
+
+<p>据新华社最新报道，昨日蛙泳小王子在百度男子100米蛙泳比赛中仅以0.5分落后冠军惜败，有专家分析指出，这是蛙泳小王子首次在蛙泳比赛中失误惜败，当然，这也是蛙泳小王子第一次参加比赛。落后的原因有以下几个：</p>
+<ul>
+<li>蛙泳小王子腿上有腿毛，加大了与水的黏性系数，液体阻力为常人的两倍，应该穿上“鲨鱼皮”</li>
+<li>蛙泳小王子提前两天下水试游时，试水时间长达两个小时，导致肌肉酸疼抽筋，比赛时带伤上阵</li>
+<li>蛙泳小王子试水期间误以为泳池长度为50米，练习时，只管一个回来；事实上泳池长度只有25米，导致蛙泳王子开始比赛的时候，一个回来的时候就傻X了</li>
+</ul>
+</div>
+
+<hr class="blog-hr">
+
+<div class="container blog-container prev-next-box">
+  <ul class="pager">
+    <li class="previous"><a href="javascript:void(0);" id="prev">&larr; Older</a></li>
+    <li class="next"><a href="javascript:void(0);" id="next">Newer &rarr;</a></li>
+  </ul>
+</div>
+
+<div class="content" data-slide="1">
+	<div class="blog-container">
+		<div id="home-row-1" class="clearfix">
+			<div id="comments"></div>
+		</div>
+	</div>
+</div>
+
+<div class="container blog-container comment-box">
+		<form class="form-horizontal" role="form">
+	  <div class="form-group">
+	    <div class="col-sm-3">
+	      <input type="text" class="form-control js-name" placeholder="名字不重要">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-10">
+	      <textarea class="form-control inputComment js-comment" placeholder="深有感触，写点我的想法"> </textarea>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-10">
+	      <button type="submit" class="btn btn-default js-submit">发表评论</button>
+	    </div>
+	  </div>
+	</form>
+</div>
+<!-- <div id="blog-footer"><a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博</a> | <a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="glyphicon glyphicon-envelope email-footer">wushuiyong@huamanshu.com</a> </div> -->
+<div id="blog-footer">©2014 huamanshu. All rights reserved</div><div class="hide" style="display:none"><script type="text/javascript" src="http://hm.baidu.com/h.js?fb1a70589b6397ff055728e0196175d5"></script></div>
+<script src="/static/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="/static/js/jquery.easing.1.3.js" type="text/javascript"></script>
+<script src="/static/js/script.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(e) {
+  var lis = $('.nav > li');
+  menu_focus( lis[1], 1 );
+  
+  var sprintf = function() {
+      var arg = arguments,
+          str = arg[0] || '',
+          i, n;
+      for (i = 1, n = arg.length; i < n; i++) {
+          str = str.replace(/%s/, arg[i]);
+      }
+      return str;
+  }
+
+  // 初始化评论
+  var initComment = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/getComment/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+          var tpl = '';
+          for (key in data.comments) {
+              var c = data.comments[key];
+              tpl += sprintf("<blockquote><p><em>%s</em>%s</p></blockquote>", c.name, c.comment);
+          }
+          $('#comments').html(tpl).show();
+      }
+    })
+  }
+  initComment();
+
+  // 初始化浏览次数
+  var initViewCount = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/viewCount/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+          $('.time').text(data.time);
+          $('.view').text(data.view);
+      }
+    });
+  }
+  initViewCount();
+
+  // 获取上一篇下一篇
+  var initNextPrev = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/getNextPrev/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+        var re = /\/index\d.html/
+        var nTitle = re.test(data.n.url) ? '下一页' : data.n.title;
+        var pTitle = re.test(data.p.url) ? '上一页' : data.p.title;
+        data.n ? $('#next').attr('href', data.n.url).html(nTitle + ' &rarr;') : $('#next').hide();
+        data.p ? $('#prev').attr('href', data.p.url).html('&larr; ' + pTitle) : $('#prev').hide();
+      }
+    });
+  }
+  initNextPrev();
+
+  // 写完点提交或者ctrl+enter
+  if (event.ctrlKey && event.keyCode == '13') {
+    addComment();
+  }
+  $('.js-submit').click(function(e) {
+    e.preventDefault();
+    addComment();
+  })
+
+  // 添加评论
+  var addComment = function() {
+    var name = $('.js-name').val();
+    var comment = $('.js-comment').val();
+
+    $.ajax({
+      'type' : 'POST',
+      'url'  : '/home/blog/addComment/',
+      'data' : sprintf('name=%s&comment=%s&id=%s', encodeURIComponent(name), encodeURIComponent(comment), encodeURIComponent(window.location.href)),
+      'success' : function(data) {
+          initComment();
+          $('.js-name').val('');
+          $('.js-comment').val('');
+      }
+    })
+  }
+});
+
+</script>
+<script type="text/javascript" src="http://hm.baidu.com/h.js?fb1a70589b6397ff055728e0196175d5"></script>
+
+</body>
+</html>

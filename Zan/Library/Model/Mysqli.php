@@ -28,7 +28,9 @@ class Mysqli {
     public function getArray($sql) {
         $result = [];
         $query = $this->db->query($sql);
-        while ($result[] = $query->fetch_assoc());
+        while ($row = $query->fetch_assoc()) {
+            $result[] = $row;
+        }
         return $result;
     }
 
@@ -42,7 +44,7 @@ class Mysqli {
 
     public function __call($func, $params) {
         if (method_exists($this->db, $func)) {
-            call_user_func_array(array($this->db, $func), $params);
+            return call_user_func_array(array($this->db, $func), $params);
         }
     }
 

@@ -1,0 +1,421 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="generator" content="pandoc" />
+
+<link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css"/>
+<link rel="stylesheet" href="/static/css/blog.css" type="text/css"/>
+
+<title>Hbase伪分布搭建与应用测试</title>
+<meta name="keywords" content="Hbase,伪分布,hadoop配置,搭建与应用测试">
+<meta name="description" content="Hbase,伪分布,hadoop配置,搭建与应用测试">
+<script type="text/javascript">
+var _speedMark = new Date();
+</script>
+</head>
+
+<body>
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+        <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav ml90">
+          <li data-slide="1" class="col-xs-4"><a href="/"  id="menu-link-1"><span class="glyphicon glyphicon-home"></span>首页</a></li>
+          <li data-slide="2" class="col-xs-4 active"><a href="/blog/" id="menu-link-2"><span class="glyphicon glyphicon-book"></span>博客</a></li>
+          <li data-slide="3" class="col-xs-4"><a href="/team/" id="menu-link-3" target="_blank"><span class="glyphicon glyphicon-user"></span>团队</a></li>
+        </ul>
+      <div class="row">
+        <div class="col-xs-4 active-menu"></div>
+      </div>
+          
+      </div>
+    </div>
+</div>
+<div class="content-title"><h1 class="title glyphicon glyphicon-leaf">Hbase伪分布搭建与应用测试<span class="view glyphicon glyphicon-eye-open"></span><span class="time glyphicon glyphicon-time"></span></h1></div>
+
+<div class="content">
+	<!---title:Hbase伪分布搭建与应用测试-->
+<!---keywords:Hbase,伪分布,hadoop配置,搭建与应用测试-->
+
+
+<p>速度写下环境搭建第二步，主要是hadoop配置，hbase配置，然后zookeeper看个人需要；最后要做的就是做实例测试。</p>
+<p>hadoop配置： 1. apache站点http://www.apache.org/dyn/closer.cgi/hadoop/common/下载hadoop你喜欢的版本 2.解压hadoop-1.2.0.tar.gz，移到个人喜欢的路径，如我的 /usr/local/hadoop 3.更改conf下的配置文件（所列的，都放到configuration里面）</p>
+<pre><code>hdfs-site.xml
+ &lt;property&gt;
+  &lt;name&gt;dfs.name.dir&lt;/name&gt;
+  &lt;value&gt;/home/paopao/Data/softdata/hadoop/_hadoop/name&lt;/value&gt;
+ &lt;/property&gt;
+
+ &lt;property&gt;
+  &lt;name&gt;dfs.data.dir&lt;/name&gt;
+  &lt;value&gt;/home/paopao/Data/softdata/hadoop/_hadoop/data&lt;/value&gt;
+ &lt;/property&gt;
+
+ &lt;property&gt;
+  &lt;name&gt;dfs.replication&lt;/name&gt;
+  &lt;value&gt;1&lt;/value&gt;
+ &lt;/property&gt;
+
+mapred-site.xml
+    &lt;property&gt;
+        &lt;name&gt;mapred.job.tracker&lt;/name&gt;
+        &lt;value&gt;localhost:9001&lt;/value&gt;
+    &lt;/property&gt;
+
+hadoop-env.sh
+ export JAVA_HOME=/usr/local/java
+
+core-site.xml
+    &lt;property&gt;
+     &lt;name&gt;fs.default.name&lt;/name&gt;
+     &lt;value&gt;hdfs://localhost:9000&lt;/value&gt;
+    &lt;/property&gt;
+
+    &lt;property&gt;
+        &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
+        &lt;value&gt;/home/paopao/Data/softdata/hadoop/tmp&lt;/value&gt;
+    &lt;/property&gt;</code></pre>
+<p>4.格式化hadoop，准备开始体验hadoop</p>
+<pre><code>root@paopao-K55VD:/usr/local/hadoop# ./bin/hadoop namenode -format</code></pre>
+<p>5.启动hadoop，检查启动是否成功</p>
+<pre><code>root@paopao-K55VD:/usr/local/hadoop# ./bin/start-all.sh
+root@paopao-K55VD:/usr/local/hadoop# jps|cut -d&#39; &#39; -f2|sort
+DataNode
+NameNode
+JobTracker
+Jps
+TaskTracker
+SecondaryNameNode</code></pre>
+<p>如果是为以上输出6个java进程，那么，恭喜你，成功了。否则就要查看logs下的日志了。 当然，想查看dfs使用情况：</p>
+<pre><code>root@paopao-K55VD:/usr/local/hadoop# ./bin/hadoop dfsadmin -report
+Safe mode is ON
+Configured Capacity: 0 (0 KB)
+Present Capacity: 0 (0 KB)
+DFS Remaining: 0 (0 KB)
+DFS Used: 0 (0 KB)
+DFS Used%: �%
+Under replicated blocks: 0
+Blocks with corrupt replicas: 0
+Missing blocks: 0
+
+-------------------------------------------------
+Datanodes available: 0 (0 total, 0 dead)</code></pre>
+<p>有相应的界面查看： http://localhost:50070/dfshealth.jsp http://localhost:50030/jobtracker.jsp</p>
+<p>hbase配置： 1.conf下文件的配置</p>
+<pre><code>hbase－site.xml
+&lt;property&gt;
+  &lt;name&gt;hbase.rootdir&lt;/name&gt;
+     &lt;value&gt;hdfs://localhost:9000/hbase&lt;/value&gt;
+&lt;/property&gt;
+
+&lt;property&gt;
+  &lt;name&gt;hbase.cluster.distributed&lt;/name&gt;
+  &lt;value&gt;true&lt;/value&gt;
+&lt;/property&gt;
+
+hbase-env.sh
+export JAVA_HOME=/usr/local/java/
+export HBASE_CLASSPATH=/usr/local/hadoop/conf</code></pre>
+<p>2.启动hbase，检查启动是否成功</p>
+<pre><code>root@paopao-K55VD:/usr/local/hbase# ./bin/start-hbase.sh 
+root@paopao-K55VD:/usr/local/hbase# jps|cut -d&#39; &#39; -f2|sort
+DataNode
+HMaster
+HQuorumPeer
+HRegionServer
+JobTracker
+Jps
+NameNode
+SecondaryNameNode
+TaskTracker</code></pre>
+<p>如hadoop一样，jps的输出就知道启动是否成功了 hbase管理界面：http://localhost:60010/master-status zookeeper管理界面：http://localhost:60010/zk.jsp 3.hbase命令行体验：</p>
+<pre><code>root@paopao-K55VD:/usr/local/hbase# ./bin/hbase shell
+HBase Shell; enter &#39;help&lt;RETURN&gt;&#39; for list of supported commands.
+Type &quot;exit&lt;RETURN&gt;&quot; to leave the HBase Shell
+Version 0.94.8, r1485407, Wed May 22 20:53:13 UTC 2013
+
+hbase(main):001:0&gt; create &#39;love&#39;,&#39;info&#39;
+0 row(s) in 1.7010 seconds
+hbase(main):003:0&gt; put &#39;love&#39;,&#39;paopao family&#39;,&#39;info:girl&#39;,&#39;my wife&#39;
+0 row(s) in 0.0620 seconds
+hbase(main):011:0&gt; put &#39;love&#39;,&#39;paopao family&#39;,&#39;info:boy&#39;,&#39;me&#39;
+0 row(s) in 0.0100 seconds
+hbase(main):012:0&gt; get &#39;love&#39;,&#39;paopao family&#39;
+COLUMN                                CELL                                                                                                      
+ info:boy                             timestamp=1374370913195, value=me 
+ info:girl                            timestamp=1374370740760, value=my wife
+ 2 row(s) in 0.0210 seconds</code></pre>
+<p>自行实现数据库操作基类： package BeeBase;</p>
+<pre><code>import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.core.NewCookie;
+import javax.xml.crypto.dsig.keyinfo.KeyValue;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.client.Delete;
+import org.apache.hadoop.hbase.client.Get;
+import org.apache.hadoop.hbase.client.HTable;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.util.Bytes;
+
+
+public class BHbase {
+    // 连接配置
+    public static Configuration conf = null;
+    
+    // 数据库
+    public static HTable hTable = null;
+    
+
+    public BHbase(String table) {
+        this.conf = HBaseConfiguration.create();
+        conf.set(&quot;hbase.zookeeper.quorum&quot;, &quot;localhost&quot;);
+        try {
+            this.hTable = new HTable(conf, table);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void addRecord(String key, String family, String qualifier, String value) {
+        Put put = new Put(Bytes.toBytes(key));
+        put.add(Bytes.toBytes(family), Bytes.toBytes(qualifier), Bytes.toBytes(value));
+        try {
+            this.hTable.put(put);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void removeRecord(String key) {
+        Delete del = new Delete(key.getBytes());
+        try {
+            this.hTable.delete(del);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
+
+
+    public Result getRecord(String key) {
+        Result rs = null;
+        Get get = new Get(Bytes.toBytes(key));
+        try {
+            rs = this.hTable.get(get);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+}
+
+
+UnitTest实例：
+package BeeBase;
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.util.Bytes;
+import org.junit.Test;
+
+import BeeBase.BHbase;
+
+public class BHbaseTest {
+    public static BHbase bHbaseTest = null;
+
+    public void testBHbase() {
+
+    }
+
+    @Test
+    public void testString() {
+        List list = new ArrayList();
+    }
+    @Test
+    public void testAddRecord() {
+        BHbase bHbaseTest = new BHbase(&quot;love&quot;);
+        bHbaseTest.addRecord(&quot;test&quot;, &quot;info&quot;, &quot;mather&quot;, &quot;wu\&#39;s mather&quot;);
+        this.printResult(&quot;love&quot;, &quot;test&quot;);
+        bHbaseTest.addRecord(&quot;test&quot;, &quot;info&quot;, &quot;mather&quot;, &quot;wu\&#39;s father&quot;);
+        this.printResult(&quot;love&quot;, &quot;test&quot;);
+    }
+
+    @Test
+    public void removeRecord() {
+        BHbase bHbaseTest = new BHbase(&quot;love&quot;);
+        bHbaseTest.removeRecord(&quot;test&quot;);
+        this.printResult(&quot;love&quot;, &quot;test&quot;);
+    }
+    
+    public static void printResult(String table, String key) {
+        BHbase bHbaseTest = new BHbase(table);
+        Result rs = bHbaseTest.getRecord(key);
+        System.out.println(&quot;======s======&quot;);
+        for(org.apache.hadoop.hbase.KeyValue kv : rs.raw()) {
+            byte[] family = kv.getValue();
+            System.out.println(Bytes.toString(family));
+        }
+        System.out.println(&quot;======e======&quot;);
+    }
+    
+}</code></pre>
+</div>
+
+<hr class="blog-hr">
+
+<div class="container blog-container prev-next-box">
+  <ul class="pager">
+    <li class="previous"><a href="javascript:void(0);" id="prev">&larr; Older</a></li>
+    <li class="next"><a href="javascript:void(0);" id="next">Newer &rarr;</a></li>
+  </ul>
+</div>
+
+<div class="content" data-slide="1">
+	<div class="blog-container">
+		<div id="home-row-1" class="clearfix">
+			<div id="comments"></div>
+		</div>
+	</div>
+</div>
+
+<div class="container blog-container comment-box">
+		<form class="form-horizontal" role="form">
+	  <div class="form-group">
+	    <div class="col-sm-3">
+	      <input type="text" class="form-control js-name" placeholder="名字不重要">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-10">
+	      <textarea class="form-control inputComment js-comment" placeholder="深有感触，写点我的想法"> </textarea>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-10">
+	      <button type="submit" class="btn btn-default js-submit">发表评论</button>
+	    </div>
+	  </div>
+	</form>
+</div>
+<!-- <div id="blog-footer"><a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博</a> | <a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="glyphicon glyphicon-envelope email-footer">wushuiyong@huamanshu.com</a> </div> -->
+<div id="blog-footer">©2014 huamanshu. All rights reserved</div><div class="hide" style="display:none"><script type="text/javascript" src="http://hm.baidu.com/h.js?fb1a70589b6397ff055728e0196175d5"></script></div>
+<script src="/static/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="/static/js/jquery.easing.1.3.js" type="text/javascript"></script>
+<script src="/static/js/script.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(e) {
+  var lis = $('.nav > li');
+  menu_focus( lis[1], 1 );
+  
+  var sprintf = function() {
+      var arg = arguments,
+          str = arg[0] || '',
+          i, n;
+      for (i = 1, n = arg.length; i < n; i++) {
+          str = str.replace(/%s/, arg[i]);
+      }
+      return str;
+  }
+
+  // 初始化评论
+  var initComment = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/getComment/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+          var tpl = '';
+          for (key in data.comments) {
+              var c = data.comments[key];
+              tpl += sprintf("<blockquote><p><em>%s</em>%s</p></blockquote>", c.name, c.comment);
+          }
+          $('#comments').html(tpl).show();
+      }
+    })
+  }
+  initComment();
+
+  // 初始化浏览次数
+  var initViewCount = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/viewCount/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+          $('.time').text(data.time);
+          $('.view').text(data.view);
+      }
+    });
+  }
+  initViewCount();
+
+  // 获取上一篇下一篇
+  var initNextPrev = function() {
+    $.ajax({
+      'type' : 'GET',
+      'url'  : '/home/blog/getNextPrev/',
+      'data' : 'id=' + encodeURIComponent(window.location.href),
+      'success' : function(data) {
+        var re = /\/index\d.html/
+        var nTitle = re.test(data.n.url) ? '下一页' : data.n.title;
+        var pTitle = re.test(data.p.url) ? '上一页' : data.p.title;
+        data.n ? $('#next').attr('href', data.n.url).html(nTitle + ' &rarr;') : $('#next').hide();
+        data.p ? $('#prev').attr('href', data.p.url).html('&larr; ' + pTitle) : $('#prev').hide();
+      }
+    });
+  }
+  initNextPrev();
+
+  // 写完点提交或者ctrl+enter
+  if (event.ctrlKey && event.keyCode == '13') {
+    addComment();
+  }
+  $('.js-submit').click(function(e) {
+    e.preventDefault();
+    addComment();
+  })
+
+  // 添加评论
+  var addComment = function() {
+    var name = $('.js-name').val();
+    var comment = $('.js-comment').val();
+
+    $.ajax({
+      'type' : 'POST',
+      'url'  : '/home/blog/addComment/',
+      'data' : sprintf('name=%s&comment=%s&id=%s', encodeURIComponent(name), encodeURIComponent(comment), encodeURIComponent(window.location.href)),
+      'success' : function(data) {
+          initComment();
+          $('.js-name').val('');
+          $('.js-comment').val('');
+      }
+    })
+  }
+});
+
+</script>
+<script type="text/javascript" src="http://hm.baidu.com/h.js?fb1a70589b6397ff055728e0196175d5"></script>
+
+</body>
+</html>

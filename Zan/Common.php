@@ -16,7 +16,7 @@ define('LIBHOOKS', ROOT . '/Zan/Library/Hooks/');
 define('LIBURI',   ROOT . '/Zan/Library/Uri/');
 
 date_default_timezone_set('Asia/Shanghai');
-
+session_start();
 include ROOT . '/Zan/Zan.php';
 spl_autoload_register('Zan\Zan::autoload');
 

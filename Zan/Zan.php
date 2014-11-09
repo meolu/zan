@@ -28,6 +28,8 @@ class Zan {
               : self::class2file($class);
               // echo "file:";var_dump($file);echo "<BR>";
         if (!$file && !class_exists($class)) {
+            // $bt = debug_backtrace();
+            // // var_dump($bt);
             throw new ZException("can not find class[{$class}]", ZException::NOT_FOUND_CLASS);
         }
         include($file);
