@@ -34,7 +34,9 @@
             break;
         }
     }
+    
 此时zan会找到`App/Demo/Controller/User.php`类，自动加载所需类和配置，并调用`loginAction`的方法。
+
     App
     └── Demo
         ├── Conf
