@@ -22,7 +22,9 @@ class Demo_Controller_User extends Controller {
             if ($exists) {
                 $this->view->set('error_msg', '用户名已经存在，请更换');
             } else {
-                $ret = $this->model->signUp();
+                $userName = Util\Request::post('user_name');
+                $userPass = Util\Request::post('user_pass');
+                $ret = $this->model->signUp($userName, $userPass);
                 if ($ret) {
                     $this->model->setUid(Util\Request::post('user_name'));
                     Util\Http::redirect('/demo/user/info');
@@ -40,7 +42,9 @@ class Demo_Controller_User extends Controller {
 
     public function loginAction() {
         if (Util\Request::isPost()) {
-            $ret = $this->model->login();
+            $userName = Util\Request::post('user_name');
+            $userPass = Util\Request::post('user_pass');
+            $ret = $this->model->login($userName, $userPass);
             if ($ret) {
                 Util\Http::redirect('/demo/user/info');
             } else {

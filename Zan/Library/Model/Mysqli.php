@@ -34,6 +34,11 @@ class Mysqli {
         return $result;
     }
 
+    public function getOne($sql) {
+        $query = $this->db->query($sql);
+        return $query->fetch_assoc();
+    }
+
     public function getCount(array $query = []) {
         $sql = "select count(*) as num from $table where " . join(" AND ", $query);
         if ($result = $this->db->query($sql)) {

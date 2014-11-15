@@ -8,10 +8,17 @@
 namespace Zan\Library;
 
 class Model {
+    const MYSQLI = 'mysqli';
+    const MONGO  = 'mongo';
+
     protected $db;
     protected $table;
-    public function __construct($type = 'zmongo') {
-        // $this->db = new Model\ZMysqli();
+
+    public function __construct($type = 'mysqli') {
+        if ($type) {
+            $model = 'Zan\Library\Model\\' . ucwords($type);
+            $this->db = $model::getInstance();
+        }
     }
 
     public static function getInstance($type = 'mysqli') {

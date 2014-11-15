@@ -11,6 +11,17 @@ class Request {
     public function __construct() {
     }
 
+    public static function isPost($key = null) {
+        return 'POST' === $_SERVER['REQUEST_METHOD'];
+    }
+
+    public static function server($key = null) {
+        if ($key) {
+            return isset($_SERVER[$key]) ? $_SERVER[$key] : null;
+        }
+        return $_SERVER;
+    }
+
     public static function post($key = null) {
         if ($key) {
             return isset($_POST[$key]) ? $_POST[$key] : null;
@@ -23,17 +34,6 @@ class Request {
             return isset($_GET[$key]) ? $_GET[$key] : null;
         }
         return $_GET;
-    }
-
-    public static function isPost($key = null) {
-        return 'POST' === $_SERVER['REQUEST_METHOD'];
-    }
-
-    public static function server($key = null) {
-        if ($key) {
-            return isset($_SERVER[$key]) ? $_SERVER[$key] : null;
-        }
-        return $_SERVER;
     }
 
     public static function request($key = null) {

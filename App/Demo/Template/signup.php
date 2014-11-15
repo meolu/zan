@@ -12,7 +12,10 @@
         <br>
         <label for="">密&nbsp;&nbsp;&nbsp;&nbsp;码：</label><input type="password" name="user_pass">
         <br><br>
-        <input type="submit"><label for="" style="color:red"><?= $error_msg ?></label>
+        <input type="submit">
+        <?php if ($error_msg) : ?>
+        <label for="" style="color:red"><?= $error_msg ?></label>
+        <?php endif; ?>
     </form>
 </body>
 </html>

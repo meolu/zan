@@ -14,9 +14,7 @@ class Demo_Model_User extends Model {
         parent::__construct('mysqli');
     }
 
-    public function signUp() {
-        $userName = Util\Request::post('user_name');
-        $userPass = Util\Request::post('user_pass');
+    public function signUp($userName, $userPass) {
         if (!$userName || !$userPass) {
             return false;
         }
@@ -25,9 +23,7 @@ class Demo_Model_User extends Model {
         return $this->db->query($sql);
     }
 
-    public function login() {
-        $userName = Util\Request::post('user_name');
-        $userPass = Util\Request::post('user_pass');
+    public function login($userName, $userPass) {
         if (!$userName || !$userPass) {
             return false;
         }
