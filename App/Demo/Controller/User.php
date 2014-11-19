@@ -6,13 +6,13 @@
  * Created Time: Sun 14 Sep 2014 07:48:36 PM
  * ************************************************************************/
 use Zan\Library\Util;
-use Zan\Library\Controller;
-use Zan\Library\View;
+use Zan\Library;
 
-class Demo_Controller_User extends Controller {
+
+class Demo_Controller_User extends Library\Controller {
     public $model;
     public function __construct() {
-        $this->view = new View();
+        $this->view = new Library\View();
         $this->model = new Demo_Model_User();
     }
 
@@ -66,7 +66,9 @@ class Demo_Controller_User extends Controller {
         $userInfo = $this->model->getUserInfo($uid);
         if (false === $userInfo) {
             $this->view->set('error_msg', '获取用户失败');
+
         }
+        Library\Log::error('xxx');
         $this->view->render(array(
             'username' => $userInfo['name'],
         ), 'userinfo.php');

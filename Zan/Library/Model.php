@@ -15,10 +15,8 @@ class Model {
     protected $table;
 
     public function __construct($type = 'mysqli') {
-        if ($type) {
-            $model = 'Zan\Library\Model\\' . ucwords($type);
-            $this->db = $model::getInstance();
-        }
+        $model = 'Zan\Library\Model\\' . ucwords($type);
+        $this->db = $model::getInstance();
     }
 
     public static function getInstance($type = 'mysqli') {

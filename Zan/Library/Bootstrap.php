@@ -11,7 +11,7 @@ use Zan;
 
 class Bootstrap {
 
-    public static function run(Uri\Router $router) {
+    public static function run(Router $router) {
         $router->init();
         $controller = $router->controller();
         $action     = $router->action();
@@ -25,11 +25,15 @@ class Bootstrap {
                 Zan\Zan::display40x();
             }
             $instance->$action();
+        } catch (\PDOException $e) {
+            Log::error($e);
+            Zan\Zan::display50x('fetch data error');
         } catch (ZException $e) {
+            var_dump($e);
             Log::error($e);
             Zan\Zan::display50x($e->getMessage());
         }
-            
+
     }
 
 }

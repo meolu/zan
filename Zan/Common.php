@@ -14,7 +14,6 @@ define('EXT', '.php');
 define('APPPATH',  ROOT . '/App/');
 define('LIBPATH',  ROOT . '/Zan/Library/');
 define('LIBHOOKS', ROOT . '/Zan/Library/Hooks/');
-define('LIBURI',   ROOT . '/Zan/Library/Uri/');
 
 date_default_timezone_set('Asia/Shanghai');
 session_start();

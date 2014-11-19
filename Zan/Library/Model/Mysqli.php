@@ -20,9 +20,13 @@ class Mysqli {
      */
     public function __construct() {
         include ROOT . '/Zan/Conf/database.php';
+        if (!isset($db[self::DB_ACTIVE])) {
+            exit('can not find db conf');
+        }
         $dbConf = $db[self::DB_ACTIVE];
         $dns = sprintf('mysql:host=%s;port=%d;dbname=%s', $dbConf['host'], $dbConf['port'], $dbConf['database']);
-        $this->pdo = new \PDO($dns, $dbConf['user'], $dbConf['passwd'], array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION));
+        $this->pdo = new \PDO($dns, $dbConf['user'], $dbConf['passwd']);
+        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
 
     /**

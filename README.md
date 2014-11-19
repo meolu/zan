@@ -112,7 +112,7 @@ class Demo_Model_User extends Model {
         }
         $userPass = $this->getMd5Pass($userPass);
         $sql = "select * from user where name = '{$userName}' and pass = '{$userPass}'";
-        return $this->db->getOne($sql);
+        return $this->db->fetchOne($sql);
     }
 }
 ```

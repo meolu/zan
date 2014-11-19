@@ -8,5 +8,5 @@
 
 define('ROOT', dirname(__FILE__));
 include ROOT . "/Zan/Common.php";
-$router = new \Zan\Library\Uri\Router();
+$router = new \Zan\Library\Router();
 Zan\Library\Bootstrap::run($router);

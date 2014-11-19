@@ -7,20 +7,19 @@
  * ************************************************************************/
 namespace Zan\Library\Model;
 
-class ZMongo {
+class Mongo {
     const DB_ACTIVE = 'mongo';
     public function __construct() {
         include ROOT . '/Zan/Conf/database.php';
-        $conf = $db[self::DB_ACTIVE];
-        if (!isset($conf['host'])) {
+        if (!isset($db[self::DB_ACTIVE])) {
             exit('can not find db conf');
         }
+        $conf = $db[self::DB_ACTIVE];
         $host = 'mongodb://'
               . $conf['user'] ? $conf['user'] : ''
               . $conf['passwd'] ? (':' . $conf['user']) : ''
               . '@' . $conf['host']
               . $conf['database'] ? '/' . $conf['database'] : '';
-        var_dump($host);
         $this->db = new \MongoClient($host);
     }
 

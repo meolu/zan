@@ -5,7 +5,7 @@
  * mail: wushuiyong@huamanshu.com
  * Created Time: Fri 05 Sep 2014 03:32:19 PM
  * ************************************************************************/
-namespace Zan\Library\Uri;
+namespace Zan\Library;
 
 class Router {
 
@@ -13,7 +13,7 @@ class Router {
     private $_app;
     private $_controller;
     private $_action;
-    
+
     public function __construct() {
         self::$_instance = &$this;
     }
