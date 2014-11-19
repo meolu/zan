@@ -26,8 +26,6 @@ class Model {
         return $model::getInstance();
     }
 
-
-
     public function __call($func, $params) {
         if (method_exists($this->db, $func)) {
             return call_user_func_array(array($this->db, $func), $params);

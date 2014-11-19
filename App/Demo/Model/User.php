@@ -18,9 +18,15 @@ class Demo_Model_User extends Model {
         if (!$userName || !$userPass) {
             return false;
         }
+        $exists = $this->userExists($userName);
+        if ($exists) {
+            return false;
+        }
         $userPass = $this->getMd5Pass($userPass);
         $sql = "insert into user(name, pass) values ('{$userName}', '{$userPass}')";
-        return $this->db->query($sql);
+        $table = "user";
+        $data  = array('name' => $userName, 'pass' => $userPass);
+        return $this->db->insert($table, $data);
     }
 
     public function login($userName, $userPass) {
@@ -28,22 +34,27 @@ class Demo_Model_User extends Model {
             return false;
         }
         $userPass = $this->getMd5Pass($userPass);
-        $sql = "select * from user where name = '{$userName}' and pass = '{$userPass}'";
-        return $this->db->getOne($sql);
+        $sql = "select id from user "
+             . "where name = '{$userName}' and pass = '{$userPass}' "
+             . "limit 1";
+        
+        $ret = $this->db->fetchOne($sql);
+        if ($ret) {
+            $this->setUid($ret['id']);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function getUserInfo($uid) {
-        $sql = "select * from user where uid = {$uid}";
-        return $this->db->getOne($sql);
-
+        $sql = "select * from user where id = {$uid}";
+        return $this->db->fetchOne($sql);
     }
 
-    public function setUid($userName) {
-        $sql = "select uid from user where name = '{$userName}'";
-        $ret = $this->db->getOne($sql);
-        if ($ret) {
-            $uid = $ret['uid'];  
-            Util\Session::set('login_uid', $uid);
+    public function setUid($uid) {
+        if ($uid) {
+            Util\Session::set('login_uid', (int)$uid);
             return true;
         }
         return false;
@@ -52,9 +63,9 @@ class Demo_Model_User extends Model {
     public function getUid() {
         return Util\Session::get('login_uid');
     }
+
     public function userExists($userName) {
-        $sql = "select uid from user where name = '{$userName}'";
-        return $this->db->getOne($sql);
+        return $this->db->getCount('user', array('name' => $userName));
     }
 
     public function getMd5Pass($pass) {

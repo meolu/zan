@@ -10,7 +10,8 @@
 // 起用db组
 
 $db = [];
-$db['default']['host'] = 'localhost';
+$db['default']['host'] = '127.0.0.1';
+$db['default']['port'] = '3306';
 $db['default']['user'] = 'wushuiyong';
 $db['default']['passwd'] = 'wu@huang';
 $db['default']['database'] = 'localdata';

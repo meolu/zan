@@ -26,7 +26,7 @@ class Demo_Controller_User extends Controller {
                 $userPass = Util\Request::post('user_pass');
                 $ret = $this->model->signUp($userName, $userPass);
                 if ($ret) {
-                    $this->model->setUid(Util\Request::post('user_name'));
+                    $this->model->login($userName, $userPass);
                     Util\Http::redirect('/demo/user/info');
                 } else {
                     $this->view->set('error_msg', '注册失败');

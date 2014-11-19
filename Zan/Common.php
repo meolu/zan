@@ -10,6 +10,7 @@ namespace Zan;
 error_reporting(E_ALL & ~E_NOTICE);
 define('DS', DIRECTORY_SEPARATOR);
 define('EXT', '.php');
+!defined('ROOT') && define('ROOT', dirname(dirname(__FILE__)));
 define('APPPATH',  ROOT . '/App/');
 define('LIBPATH',  ROOT . '/Zan/Library/');
 define('LIBHOOKS', ROOT . '/Zan/Library/Hooks/');
