@@ -34,7 +34,9 @@
             break;
         }
     }
+    
 此时zan会找到`App/Demo/Controller/User.php`类，自动加载所需类和配置，并调用`loginAction`的方法。
+
     App
     └── Demo
         ├── Conf
@@ -50,7 +52,9 @@
 zan把这部分工作交由`Zan\Library\Bootstrap`去处理，在找寻`User.php`和确认是否存在`loginAction`的方法过程，如有其一不存在，则返回404；如在执行过程有自定义错误或异常，将返回50x系统错误。
 
 ## App 开发
+由开发过程中存在多app，如openapi（开放接口），mis（运营后台），help（反馈平台）。明显的好处在于uri更符合RESTful设计，组织结构也更清晰明了。暂且我们定义一个Demo吧
 
+## Controller
 实际上，编写应用的过程就是不断的添加Controller和Action并把它实现。
 
 下边是一个Controller User的样子：
