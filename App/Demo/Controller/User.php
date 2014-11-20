@@ -69,6 +69,8 @@ class Demo_Controller_User extends Library\Controller {
 
         }
         Library\Log::error('xxx');
+        Library\Log::warning('xxx');
+        Library\Log::notice('notice');
         $this->view->render(array(
             'username' => $userInfo['name'],
         ), 'userinfo.php');

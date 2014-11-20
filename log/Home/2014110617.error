@@ -1,3 +1,0 @@
-can not find class[DB_CONF] in :33 [/home/paopao/workspace/mvc/App/Home/Controller/Service.php:200] errno[0] uri[/home/service/createblog/] refer[http://mvc:8888/home/service/createblog/]
-can not find class[DB_CONF] in :33 [/home/paopao/workspace/mvc/App/Home/Controller/Service.php:200] errno[0] uri[/home/service/createblog/] refer[http://mvc:8888/home/service/editor]
-can not find class[DB_CONF] in :33 [/home/paopao/workspace/mvc/App/Home/Controller/Service.php:200] errno[0] uri[/home/service/createblog/] refer[]
