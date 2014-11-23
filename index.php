@@ -8,5 +8,6 @@
 
 define('ROOT', dirname(__FILE__));
 include ROOT . "/Zan/Common.php";
+// 初始化路由分发
 $router = new \Zan\Library\Router();
 Zan\Library\Bootstrap::run($router);

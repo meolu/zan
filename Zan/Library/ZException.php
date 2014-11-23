@@ -16,7 +16,6 @@ class ZException extends \Exception {
         if ($message instanceof Exception) {
             parent::__construct($message->getMessage(), $code);
         } else {
-            // var_dump(debug_backtrace());
             $msg = sprintf("%s in %s:%s", $message, self::getMessage(), self::getLine());
             parent::__construct($msg, $code);
         }

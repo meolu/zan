@@ -15,26 +15,29 @@ class Zan {
 
     function __construct() {
     }
-
-    public static function load($class, $lib = '', $param = []) {
-        self::autoload($class, $lib, $param);
-        return self::$_loaded[$class];
-    }
-
+    
+    /**
+     * 自动加载
+     *
+     * @param $class string 
+     * @param $lib string
+     */
     public static function autoload($class, $lib = '', $param = []) {
-        // echo "class:";var_dump($class);
         $file = isset(self::$_class2file[$class])
               ? self::$_class2file[$class]
               : self::class2file($class);
-              // echo "file:";var_dump($file);echo "<BR>";
         if (!$file && !class_exists($class)) {
-            // $bt = debug_backtrace();
-            // // var_dump($bt);
             throw new ZException("can not find class[{$class}]", ZException::NOT_FOUND_CLASS);
         }
         include($file);
     }
-
+    
+    /**
+     * 获取自动加载class对应的文件
+     *
+     * @param $class string
+     * @return string
+     */
     public static function class2file($class) {
         if (isset(self::$_class2file[$class])) {
             return self::$_class2file[$class];
@@ -54,12 +57,24 @@ class Zan {
         }
         return;  
     }
-
+    
+    /**
+     *
+     *
+     * @param
+     * @return
+     */
     public static function display50x($message = "服务器君崩溃了:(...") {
         var_dump($message);
         exit(0);
     }
-
+    
+    /**
+     *
+     *
+     * @param
+     * @return
+     */
     public static function display40x($message = "你要找的页面君迷路了:(...") {
         var_dump($message);
         exit(0);

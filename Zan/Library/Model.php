@@ -15,10 +15,14 @@ class Model {
     protected $table;
 
     public function __construct($type = 'mysqli') {
-        $model = 'Zan\Library\Model\\' . ucwords($type);
-        $this->db = $model::getInstance();
     }
-
+    
+    /**
+     * 根据类型实例化句柄
+     *
+     * @param $type string
+     * @return obj  
+     */
     public static function getInstance($type = 'mysqli') {
         $model = 'Zan\Library\Model\\' . ucwords($type);
         return $model::getInstance();

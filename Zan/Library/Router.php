@@ -17,7 +17,11 @@ class Router {
     public function __construct() {
         self::$_instance = &$this;
     }
-
+    
+    /**
+     * 初始化REQUEST_URI对应app,controller,action
+     *
+     */
     public function init() {
         $uri = getenv('REQUEST_URI');
         if (false !== strpos($uri, '?')) {
@@ -30,18 +34,35 @@ class Router {
         $this->_action     = ucwords($uriInfo[2]) . 'Action';
         define('APP', $this->_app . '/');
     }
-
+    
+    /**
+     * 获取当前app
+     *
+     * @return string
+     */
     public function app() {
         return $this->_app;
     }
-
+    
+    /**
+     * 设置或获取当前controller
+     *
+     * @param $controller string
+     * @return string
+     */
     public function controller($controller = null) {
         if ($controller) {
             $this->_controller = $controller;
         }
         return $this->_controller;
     }
-
+    
+    /**
+     * 设置或获取当前action
+     *
+     * @param
+     * @return
+     */
     public function action($action = null) {
         if ($action) {
             $this->_action = $action;
@@ -49,7 +70,4 @@ class Router {
         return $this->_action;
     }
 
-    public function request(array $params = array()) {
-
-    }
 }

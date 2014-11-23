@@ -24,7 +24,8 @@ class Mysqli {
             exit('can not find db conf');
         }
         $dbConf = $db[self::DB_ACTIVE];
-        $dns = sprintf('mysql:host=%s;port=%d;dbname=%s', $dbConf['host'], $dbConf['port'], $dbConf['database']);
+        $dns = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=%s', 
+            $dbConf['host'], $dbConf['port'], $dbConf['database'], $dbConf['charset']);
         $this->pdo = new \PDO($dns, $dbConf['user'], $dbConf['passwd']);
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }

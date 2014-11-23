@@ -8,15 +8,15 @@
 namespace Zan;
 
 error_reporting(E_ALL & ~E_NOTICE);
-define('DS', DIRECTORY_SEPARATOR);
-define('EXT', '.php');
 !defined('ROOT') && define('ROOT', dirname(dirname(__FILE__)));
+define('DS',       DIRECTORY_SEPARATOR);
+define('EXT',      '.php');
 define('APPPATH',  ROOT . '/App/');
 define('LIBPATH',  ROOT . '/Zan/Library/');
-define('LIBHOOKS', ROOT . '/Zan/Library/Hooks/');
 
 date_default_timezone_set('Asia/Shanghai');
 session_start();
+// 开启自动加载
 include ROOT . '/Zan/Zan.php';
 spl_autoload_register('Zan\Zan::autoload');
 
