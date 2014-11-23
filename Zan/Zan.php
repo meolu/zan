@@ -9,9 +9,9 @@ namespace Zan;
 use Zan\Library\ZException;
 
 class Zan {
-    private static $_includePath = [ROOT, APPPATH, APPPATH, LIBPATH];
-    private static $_class2file = [];
-    private static $_loaded = [];
+    private static $_includePath = [ROOT, APPPATH, LIBPATH];
+    private static $_class2file  = [];
+    private static $_loaded      = [];
 
     function __construct() {
     }
@@ -47,9 +47,7 @@ class Zan {
             foreach (self::$_includePath as $path) {
                 $path = rtrim($path, '/') . '/';
                 $file = $path . $class . EXT;
-                // echo $file," $class<BR>";
                 if (file_exists($file)) {
-                    // echo $file," $class<BR>";
                     self::$_class2file[$class] = $file;
                     return self::$_class2file[$class];
                 }
@@ -59,9 +57,9 @@ class Zan {
     }
     
     /**
+     * 显示系统错误
      *
-     *
-     * @param
+     * @param $message string
      * @return
      */
     public static function display50x($message = "服务器君崩溃了:(...") {
@@ -70,7 +68,7 @@ class Zan {
     }
     
     /**
-     *
+     * 显示404错误
      *
      * @param
      * @return
