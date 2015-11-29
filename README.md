@@ -26,11 +26,10 @@
 
 当发起请求如：`http://great-compayn/demo/user/login?username=zan&pass=superzan`，先配置一项`nginx`的rewrite规则：
 
-    ```
     location / {
         try_files $uri $uri/ /index.php$is_args$args;
     }
-    ```
+    
 此时zan会找到`App/Demo/Controller/User.php`类，自动加载所需类和配置，并调用`loginAction`的方法。
 
     App
